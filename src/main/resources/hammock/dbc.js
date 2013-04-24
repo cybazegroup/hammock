@@ -36,7 +36,22 @@ dbc.not_empty = function(value, field_name, error_type){
     return value
 }
 
-dbc.is_number = function(value, field_name, error_type){
+dbc.instance_of = function(value,type,field_name,error_type){
+    if(value instanceof type === false){
+        throw dbc.error(field_name+' not of type '+type, error_type)
+    }
+}
+
+dbc.boolean = function(value, field_name, error_type){
+    dbc.defined(value, field_name, error_type)
+    dbc.not_null(value, field_name, error_type)
+    if(typeof value !== 'boolean'){
+        throw dbc.error('not a boolean '+field_name, error_type)
+    }
+    return value
+}
+
+dbc.number = function(value, field_name, error_type){
     dbc.defined(value, field_name, error_type)
     dbc.not_null(value, field_name, error_type)
     if(typeof value !== 'number'){
@@ -45,7 +60,8 @@ dbc.is_number = function(value, field_name, error_type){
     return value
 }
 
-dbc.is_array = function(value, field_name, error_type){
+
+dbc.array = function(value, field_name, error_type){
     dbc.defined(value, field_name, error_type)
     dbc.not_null(value, field_name, error_type)
     if(Object.prototype.toString.apply(value) !== '[object Array]'){
@@ -53,31 +69,26 @@ dbc.is_array = function(value, field_name, error_type){
     }
     return value
 }
-
-dbc.instance_of = function(value,type,field_name,error_type){
-    if(value instanceof type === false){
-        throw dbc.error(field_name+' not of type '+type, error_type)
-    }
-}
-
-dbc.is_function = function(value, field_name, error_type){
+dbc.fun = function(value, field_name, error_type){
     if(! types.isFunction(value)){
         throw dbc.error(field_name+' is not of type function', error_type)
     }
 }
 
-dbc.is_positive = function(value, field_name, error_type) {
+dbc.positive = function(value, field_name, error_type) {
     dbc.number(value, field_name, error_type);
-    if(value <= 0)  {
-        throw dbc.error(field_name+' must be a positive number', error_type)
+    if(value > 0)  {
+        return;
     }
+    throw dbc.error(field_name+' must be a positive number', error_type)
 }
 
-dbc.is_non_negative = function(value, field_name, error_type) {
+dbc.non_negative = function(value, field_name, error_type) {
     dbc.number(value, field_name, error_type);
-    if(value < 0)  {
-        throw dbc.error(field_name+' must be a non negative number', error_type)
+    if(value >=0)  {
+        return;
     }
+    throw dbc.error(field_name+' must be a non negative number', error_type)
 }
 
 
