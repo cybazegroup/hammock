@@ -262,7 +262,7 @@ Array.prototype.iota = function(start, step) {
 
 String.prototype.format = function(){
     var values = arguments
-    return this.replace(/{(\d+)}/, function(_, id){
+    return this.replace(/{(\d+)}/g, function(_, id){
         return values[+id];
     })    
 }
