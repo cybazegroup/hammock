@@ -34,6 +34,10 @@ objects.pairs = function(obj, ordering_policy) {
 }
 
 objects.shallow_copy = function(o) {
+    if(o === null ){
+        /* typeof null == 'object' in internet explorer */
+        return o;
+    }
     switch (typeof o) {
         case 'object':
             return objects.override({}, o);
@@ -49,6 +53,10 @@ objects.deep_copy = function(obj) {
     var seen = [];
     var mapping = [];
     var f = function(o) {
+        if( o === null ){ 
+            /* typeof null == 'object' in internet explorer */
+            return o;
+        }
         var i = seen.indexOf(o);
         if (i !== -1) {
             return mapping[i];

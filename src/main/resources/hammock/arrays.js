@@ -260,9 +260,39 @@ Array.prototype.iota = function(start, step) {
     return Array.iota(this.length, start, step);
 }
 
+Array.prototype.flatten = function() {
+    var result = []
+    for (var c = 0; c !== this.length; ++c) {
+        var inner = this[c];
+        for (var i = 0; i !== inner.length; ++i) {
+            result.push(inner[i]);
+        }
+    }
+    return result;
+}
+
+String.prototype.template = function(hash){
+    return this.replace(/{(\w+(?:\.\w+)*)}/g, function(_, query){
+        var pieces = query.split(".");
+        var selected = hash;
+        for(var c=0;c!==pieces.length;++c){
+            selected = selected[pieces[c]];
+        }
+        return selected;
+    })    
+}
+
+String.template = function(str, hash){
+    return str.template(hash);
+}
+
 String.prototype.format = function(){
     var values = arguments
     return this.replace(/{(\d+)}/g, function(_, id){
         return values[+id];
     })    
+}
+
+String.format = function(str/*, values...*/){
+    return str.format(Array.prototype.slice.call(arguments, 1));
 }
