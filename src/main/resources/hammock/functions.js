@@ -184,8 +184,10 @@ function is_odd(e){
     return e % 2 !== 0;
 }
 
-function is(lhs){
-    return function(rhs){
-        return lhs === rhs;
-    }
+function is(lhs, rhs){
+    return lhs === rhs;
+}
+
+function eq(lhs, rhs){
+    return lhs == rhs;
 }
