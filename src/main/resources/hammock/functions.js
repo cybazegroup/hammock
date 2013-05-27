@@ -148,7 +148,9 @@ function third_param(){
 }
 
 function param(n){
-    return arguments[n];
+    return function(){
+        return arguments[n];
+    }
 }
 
 function noop() {
@@ -166,3 +168,12 @@ function always() {
     return true
 }
 
+function sum(acc, v){
+    return acc + v;
+}
+
+function is(lhs){
+    return function(rhs){
+        return lhs === rhs;
+    }
+}

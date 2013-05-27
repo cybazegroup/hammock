@@ -294,5 +294,5 @@ String.prototype.format = function(){
 }
 
 String.format = function(str/*, values...*/){
-    return str.format(Array.prototype.slice.call(arguments, 1));
+    return str.format.apply(str, Array.prototype.slice.call(arguments, 1));
 }

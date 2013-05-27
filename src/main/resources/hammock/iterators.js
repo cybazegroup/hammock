@@ -97,7 +97,7 @@ Array.prototype.lazy = function(){
 
 dys.ArrayIterator = dys.Iterator.define({
     constructor: function(array){
-        dbc.precondition.is_array(array, "array must be an array");  
+        dbc.precondition.array(array, "array must be an array");  
         this._array = array;
         this._index = 0;
     },
@@ -113,7 +113,7 @@ dys.ArrayIterator = dys.Iterator.define({
 dys.TransformingIterator = dys.Iterator.define({
     constructor: function(iter, fn){
         dbc.precondition.not_null(iter, "iter cannot be null");
-        dbc.precondition.is_function(fn, "fn must be a function");  
+        dbc.precondition.fun(fn, "fn must be a function");  
         this._inner = iter;
         this._fn = fn;
     },
@@ -139,7 +139,7 @@ dys.TransformingIterator = dys.Iterator.define({
 dys.FilteringIterator = dys.Iterator.define({
     constructor: function(iter, pred){
         dbc.precondition.not_null(iter, "iter cannot be null");
-        dbc.precondition.is_function(pred, "pred must be a function");  
+        dbc.precondition.fun(pred, "pred must be a function");  
         this._inner = iter;
         this._pred = pred;
         this._currentHasValue = false;
@@ -263,7 +263,7 @@ dys.CyclicIterator = dys.Iterator.define({
 dys.TakeWhileIterator = dys.Iterator.define({
     constructor: function(inner, pred) {
         dbc.precondition.not_null(inner, "trying to create a TakeWhileIterator from a null iterator");
-        dbc.precondition.is_function(pred, "trying to create a TakeWhileIterator from a null predicate");
+        dbc.precondition.fun(pred, "trying to create a TakeWhileIterator from a null predicate");
         this._inner = inner;
         this._pred = pred;
         this._prefetched = null;

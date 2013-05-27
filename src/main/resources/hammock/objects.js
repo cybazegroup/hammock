@@ -124,7 +124,6 @@ objects.substitute = function(target, src) {
 
 /**
  * pluck.curry('a')({a: 'value'}) => 'value'
- * TODO: move to objects
  */
 objects.pluck = function(what, from) {
     return from[what];
