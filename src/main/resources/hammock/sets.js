@@ -1,8 +1,9 @@
 objects.namespace('hammock');
 
 
-hammock.LinkedHashSet = function(hash){
+hammock.LinkedHashSet = function(hash, eq){
     this._hash = hash;
+    this._eq = eq;
     this._keys = [];
     this._buckets = {};
 }
@@ -31,44 +32,46 @@ hammock.LinkedHashSet.merge = function(){
             set.add(arguments[a]._keys[i]);
         }
     }
-    return set;
+    return set; 
 }
 
-hammock.LinkedHashSet.prototype = {
-    _keyIndex: function(k, hash){
-        if(!this._buckets.hasOwnProperty(hash)){            
-            return -1;
-        }
-        var candidates = this._buckets[hash];
-        for(var i=0; i!==candidates.length; ++i){
-            var current = candidates[i];
-            if(this._keys[current] === k){
-                return current;
-            }
-        }
+hammock.LinkedHashSet.prototype._keyIndex = function(k, hash){
+    if(!this._buckets.hasOwnProperty(hash)){            
         return -1;
-    },
-    position: function(k){
-        return this._keyIndex(k, this._hash(k));
-    },
-    contains: function(k){
-        return -1 !== this._keyIndex(k, this._hash(k))
-    },
-    keys: function(){
-        return this._keys;
-    },
-    add: function(k){
-        var hash = this._hash(k);
-        var index = this._keyIndex(k, hash)
-        if(-1 !== index){
-            this._keys[index] = k;
-            return this;
+    }
+    var candidates = this._buckets[hash];
+    for(var i=0; i!==candidates.length; ++i){
+        var current = candidates[i];
+        if(this._eq(this._keys[current], k)){
+            return current;
         }
-        this._keys.push(k);
-        if(!this._buckets.hasOwnProperty(hash)){
-            this._buckets[hash] = []
-        }
-        this._buckets[hash].push(this._keys.length - 1);
+    }
+    return -1;
+}
+
+hammock.LinkedHashSet.prototype.position = function(k){
+    return this._keyIndex(k, this._hash(k));
+}
+
+hammock.LinkedHashSet.prototype.contains = function(k){
+    return -1 !== this._keyIndex(k, this._hash(k))
+}
+
+hammock.LinkedHashSet.prototype.keys = function(){
+    return this._keys;
+}
+
+hammock.LinkedHashSet.prototype.add = function(k){
+    var hash = this._hash(k);
+    var index = this._keyIndex(k, hash)
+    if(-1 !== index){
+        this._keys[index] = k;
         return this;
     }
+    this._keys.push(k);
+    if(!this._buckets.hasOwnProperty(hash)){
+        this._buckets[hash] = []
+    }
+    this._buckets[hash].push(this._keys.length - 1);
+    return this;
 }
