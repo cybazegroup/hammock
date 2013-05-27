@@ -7,6 +7,10 @@ Array.prototype.indexOf = Array.prototype.indexOf || function(needle) {
     return -1;
 }
 
+Array.prototype.isEmpty = Array.prototype.isEmpty || function() {
+    return this.length === 0;
+}
+
 Array.prototype.contains = Array.prototype.contains || function(needle) {
     return this.indexOf(needle) !== -1;
 }
