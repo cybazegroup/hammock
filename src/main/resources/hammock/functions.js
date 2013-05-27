@@ -172,6 +172,18 @@ function sum(acc, v){
     return acc + v;
 }
 
+function count(acc){
+    return acc+1;
+}
+
+function is_even(e){
+    return e % 2 === 0;
+}
+
+function is_odd(e){
+    return e % 2 !== 0;
+}
+
 function is(lhs){
     return function(rhs){
         return lhs === rhs;
