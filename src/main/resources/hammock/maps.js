@@ -15,7 +15,7 @@ hammock.LinkedHashMap.fromPairs = function(hash, pairs){
     return lhm;
 }
 
-hammock.LinkedHashMap.copy = function(other){
+hammock.LinkedHashMap.copyOf = function(other){
     var lhm = new hammock.LinkedHashMap(other._hash);
     for(var i=0; i!==other._keys.length; ++i){
         lhm.put(other._keys[i], other._values[i]);

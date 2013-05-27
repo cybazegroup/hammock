@@ -15,7 +15,7 @@ hammock.LinkedHashSet.fromList = function(hash, list){
     return set;    
 }
 
-hammock.LinkedHashSet.copy = function(other){
+hammock.LinkedHashSet.copyOf = function(other){
     var set = new hammock.LinkedHashSet(other._hash);
     for(var i=0; i!==other._keys.length; ++i){
         set.add(other._keys[i]);
