@@ -128,3 +128,15 @@ objects.substitute = function(target, src) {
 objects.pluck = function(what, from) {
     return from[what];
 }
+
+objects.global = function(){
+     return this || (1,eval)('this');
+}
+
+objects.namespace = function(name){
+    var current = objects.global();
+    name.split(".").forEach(function(part){
+        current = current[part] = current[part] || {};
+    });
+    return current;
+}
