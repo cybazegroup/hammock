@@ -1,94 +1,111 @@
 var dbc = {};
 
-dbc.error = function(error_msg, error_type){
-    return new Error('['+error_type+']: ' + error_msg)
+
+dbc.defineError = function(name){
+    var err = function(message){
+        Error.apply(this, arguments);        
+        this.message = message;
+    }
+    err.prototype = new Error();
+    err.prototype.constructor = err;
+    err.prototype.name = name;
+    return err;
 }
 
-dbc.assert = function(condition, field_name, error_type){
+dbc.PreconditionFailed = dbc.defineError("PreconditionFailed");
+dbc.PostconditionFailed= dbc.defineError("PreconditionFailed");
+dbc.IllegalState = dbc.defineError("IllegalState");
+dbc.BrokenInvariant = dbc.defineError("BrokenInvariant");
+
+dbc.error = function(type, error_fmt, args){
+    return new type(String.prototype.format.apply(error_fmt, args));
+}
+
+dbc.assert = function(type, condition, error_fmt, args){
     if(!condition){
-        throw dbc.error('assertion failed '+field_name, error_type)
+        throw dbc.error(type, error_fmt, args);
     }
     return condition
 }
 
 
-dbc.defined = function(value, field_name, error_type){
+dbc.defined = function(type, value, error_fmt, args){
     if(value === undefined){
-        throw dbc.error('undefined '+field_name, error_type)
+        throw dbc.error(type, error_fmt, args);
     }
     return value
 }
 
-dbc.not_null = function(value, field_name,  error_type){
-    dbc.defined(value, field_name, error_type)
+dbc.not_null = function(type, value, error_fmt, args){
+    dbc.defined(type, value, error_fmt, args)
     if(value === null){
-        throw dbc.error('null ' + field_name, error_type)
+        throw dbc.error(type, error_fmt, args);
     }
     return value
 }
 
-dbc.not_empty = function(value, field_name, error_type){
-    dbc.defined(value, field_name, error_type)
-    dbc.not_null(value, field_name, error_type)
+dbc.not_empty = function(type, value, error_fmt, args){
+    dbc.defined(type, value, error_fmt, args)
+    dbc.not_null(type, value, error_fmt, args)
     if(value.length === 0){
-        throw dbc.error('empty '+field_name, error_type)
+        throw dbc.error(type, error_fmt, args);
     }
     return value
 }
 
-dbc.instance_of = function(value,type,field_name,error_type){
+dbc.instance_of = function(type, value, type, error_fmt, args){
     if(value instanceof type === false){
-        throw dbc.error(field_name+' not of type '+type, error_type)
+        throw dbc.error(type, error_fmt, args);
     }
 }
 
-dbc.boolean = function(value, field_name, error_type){
-    dbc.defined(value, field_name, error_type)
-    dbc.not_null(value, field_name, error_type)
+dbc.boolean = function(type, value, error_fmt, args){
+    dbc.defined(type, value, error_fmt, args)
+    dbc.not_null(type, value, error_fmt, args)
     if(typeof value !== 'boolean'){
-        throw dbc.error('not a boolean '+field_name, error_type)
+        throw dbc.error(type, error_fmt, args);
     }
     return value
 }
 
-dbc.number = function(value, field_name, error_type){
-    dbc.defined(value, field_name, error_type)
-    dbc.not_null(value, field_name, error_type)
+dbc.number = function(type, value, error_fmt, args){
+    dbc.defined(type, value, error_fmt, args)
+    dbc.not_null(type, value, error_fmt, args)
     if(typeof value !== 'number'){
-        throw dbc.error('not a number '+field_name, error_type)
+        throw dbc.error(type, error_fmt, args)
     }
     return value
 }
 
 
-dbc.array = function(value, field_name, error_type){
-    dbc.defined(value, field_name, error_type)
-    dbc.not_null(value, field_name, error_type)
+dbc.array = function(type, value, error_fmt){
+    dbc.defined(value, error_fmt)
+    dbc.not_null(value, error_fmt)
     if(Object.prototype.toString.apply(value) !== '[object Array]'){
-        throw dbc.error('not an array '+field_name, error_type)
+        throw dbc.error(error_fmt)
     }
     return value
 }
-dbc.fun = function(value, field_name, error_type){
+dbc.fun = function(type, value, error_fmt, args){
     if(! types.isFunction(value)){
-        throw dbc.error(field_name+' is not of type function', error_type)
+        throw dbc.error(type, error_fmt, args)
     }
 }
 
-dbc.positive = function(value, field_name, error_type) {
-    dbc.number(value, field_name, error_type);
+dbc.positive = function(type, value, error_fmt, args) {
+    dbc.number(type, value, error_fmt, args);
     if(value > 0)  {
         return;
     }
-    throw dbc.error(field_name+' must be a positive number', error_type)
+    throw dbc.error(type, error_fmt, args)
 }
 
-dbc.non_negative = function(value, field_name, error_type) {
-    dbc.number(value, field_name, error_type);
+dbc.non_negative = function(type, value, error_fmt, args) {
+    dbc.number(type, value, error_fmt, args);
     if(value >=0)  {
         return;
     }
-    throw dbc.error(field_name+' must be a non negative number', error_type)
+    throw dbc.error(type, error_fmt, args)
 }
 
 
@@ -102,10 +119,10 @@ dbc.non_negative = function(value, field_name, error_type) {
     }
 
     for(var k in dbc){
-        container.precondition[k] = dbc[k].rcurry('precondition')
-        container.invariant[k] = dbc[k].rcurry('invariant')
-        container.state[k] = dbc[k].rcurry('state')
-        container.postcondition[k] = dbc[k].rcurry('postcondition')
+        container.precondition[k] = dbc[k].curry(dbc.PreconditionFailed)
+        container.invariant[k] = dbc[k].curry(dbc.BrokenInvariant)
+        container.state[k] = dbc[k].curry(dbc.IllegalState)
+        container.postcondition[k] = dbc[k].curry(dbc.PostconditionFailed)
     }
     for(var t in container){
         dbc[t] = container[t]
