@@ -130,7 +130,9 @@ objects.pluck = function(what, from) {
 }
 
 objects.global = function(){
-     return this || (1,eval)('this');
+    return (function(){ 
+        return this || (1,eval)('this')
+    })();
 }
 
 objects.namespace = function(name){
