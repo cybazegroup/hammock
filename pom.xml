@@ -39,6 +39,8 @@
                         <include>dbc.js</include>
                         <include>browser.js</include>
                         <include>iterators.js</include>
+                        <include>sets.js</include>
+                        <include>maps.js</include>
                     </sourceIncludes>
                 </configuration>
             </plugin>
