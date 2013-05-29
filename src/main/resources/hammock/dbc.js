@@ -20,12 +20,13 @@ dbc.defineError = function(name) {
 }
 
 dbc.PreconditionFailed = dbc.defineError("PreconditionFailed");
-dbc.PostconditionFailed = dbc.defineError("PreconditionFailed");
+dbc.PostconditionFailed = dbc.defineError("PostconditionFailed");
 dbc.IllegalState = dbc.defineError("IllegalState");
 dbc.BrokenInvariant = dbc.defineError("BrokenInvariant");
 
 dbc.make_error = function(type, error_fmt, args) {
-    return new type(String.prototype.format.apply(error_fmt, args));
+    var message = String.prototype.format.apply(error_fmt, args);
+    return new type(message);
 }
 
 dbc.assertion.assert = function(type, condition, error_fmt/*, args...*/) {
@@ -57,7 +58,7 @@ dbc.assertion.not_empty = function(type, value, error_fmt/*, args...*/) {
 }
 
 dbc.assertion.instance_of = function(type, value, exp, error_fmt/*, args...*/) {
-    if (value instanceof exp === true) {
+    if (value instanceof exp) {
         return value;
     }
     throw dbc.make_error(type, error_fmt, Array.prototype.slice.call(arguments, 4));
@@ -65,13 +66,6 @@ dbc.assertion.instance_of = function(type, value, exp, error_fmt/*, args...*/) {
 
 dbc.assertion.boolean = function(type, value, error_fmt/*, args...*/) {
     if (types.isBoolean(value)) {
-        return value;
-    }
-    throw dbc.make_error(type, error_fmt, Array.prototype.slice.call(arguments, 3));
-}
-
-dbc.assertion.number = function(type, value, error_fmt/*, args...*/) {
-    if (types.isNumber(value)) {
         return value;
     }
     throw dbc.make_error(type, error_fmt, Array.prototype.slice.call(arguments, 3));
@@ -86,6 +80,13 @@ dbc.assertion.array = function(type, value, error_fmt/*, args...*/) {
 
 dbc.assertion.fun = function(type, value, error_fmt/*, args...*/) {
     if (types.isFunction(value)) {
+        return value;
+    }
+    throw dbc.make_error(type, error_fmt, Array.prototype.slice.call(arguments, 3));
+}
+
+dbc.assertion.number = function(type, value, error_fmt/*, args...*/) {
+    if (types.isNumber(value)) {
         return value;
     }
     throw dbc.make_error(type, error_fmt, Array.prototype.slice.call(arguments, 3));
