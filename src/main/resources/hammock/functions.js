@@ -191,3 +191,19 @@ function is(lhs, rhs){
 function eq(lhs, rhs){
     return lhs == rhs;
 }
+
+function lt(lhs, rhs){
+    return lhs < rhs;
+}
+
+function gt(lhs, rhs){
+    return lhs > rhs;
+}
+
+function lte(lhs, rhs){
+    return lhs <= rhs;
+}
+
+function gte(lhs, rhs){
+    return lhs >= rhs;
+}
