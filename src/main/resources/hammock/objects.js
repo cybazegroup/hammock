@@ -122,6 +122,26 @@ objects.substitute = function(target, src) {
     return target;
 }
 
+objects.merge = function(destination/*,srcs..*/) {
+    for (var i = 1; i !== arguments.length; ++i) {
+        var source = arguments[i];
+        for (var key in source) {
+            var value = source[key];
+            if (!value || value.constructor !== Object) {
+                destination[key] = value;
+                continue;
+            }
+            var dstValue = destination[key];
+            if (!dstValue || dstValue.constructor !== Object) {
+                destination[key] = objects.deep_copy(value);
+                continue;
+            }
+            objects.merge(dstValue, value);
+        }
+    }
+    return destination;
+}
+
 /**
  * pluck.curry('a')({a: 'value'}) => 'value'
  */
