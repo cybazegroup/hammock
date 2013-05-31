@@ -92,6 +92,26 @@ Function.prototype.preceded_by = function(before/*(arguments)*/, scope/*[optiona
     }
 }
 
+Function.prototype.when = function(pred, scope){
+    var self = this;
+    return function(){
+        if(!pred.apply(scope || this, arguments)){
+            return;
+        }
+        return self.apply(scope || this, arguments);
+    }
+}
+
+Function.prototype.unless = function(pred, scope){
+    var self = this;
+    return function(){
+        if(pred.apply(scope || this, arguments)){
+            return;
+        }
+        return self.apply(scope || this, arguments);
+    }
+}
+
 Function.prototype.meta = function(meta) {
     for (var d in meta) {
         this[d] = meta[d];
