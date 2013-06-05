@@ -8,8 +8,8 @@ hammock.LinkedHashSet = function(hash, eq){
     this._buckets = {};
 }
 
-hammock.LinkedHashSet.fromList = function(hash, list){
-    var set = new hammock.LinkedHashSet(hash);
+hammock.LinkedHashSet.fromList = function(hash, eq, list){
+    var set = new hammock.LinkedHashSet(hash, eq);
     for(var i=0; i!==list.length; ++i){
         set.add(list[i]);
     }
@@ -17,7 +17,7 @@ hammock.LinkedHashSet.fromList = function(hash, list){
 }
 
 hammock.LinkedHashSet.copyOf = function(other){
-    var set = new hammock.LinkedHashSet(other._hash);
+    var set = new hammock.LinkedHashSet(other._hash, other._eq);
     for(var i=0; i!==other._keys.length; ++i){
         set.add(other._keys[i]);
     }
