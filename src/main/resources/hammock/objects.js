@@ -64,10 +64,14 @@ objects.deep_copy = function(obj) {
         switch (typeof o) {
             case 'object':
                 seen.push(o);
-                return mapping.push(objects.override({}, o, f));
+                var copy = objects.override({}, o, f);
+                mapping.push(copy);
+                return copy;
             case 'array':
                 seen.push(o);
-                return mapping.push(o.map(f));
+                var copy = o.map(f);
+                mapping.push(copy);
+                return copy;
             default:
                 return o;
         }
