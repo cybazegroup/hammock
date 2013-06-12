@@ -17,3 +17,15 @@ describe('objects.namespace', function() {
         expect(testing.glob.namespace).not.toBe(null);
     })
 });
+
+describe('objects.defaults', function() {
+    it('will not override existing value', function() {
+       var got = objects.defaults({a: 1}, {a: 2}); 
+       expect({a: 1}).toEqual(got);
+    });
+    
+    it ('will add a default value if key is missing', function() {
+        var got = objects.defaults({a: 1}, {b: 2}); 
+        expect({a: 1, b: 2}).toEqual(got);
+    });
+});

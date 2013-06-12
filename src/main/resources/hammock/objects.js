@@ -102,7 +102,7 @@ objects.remove = function() {
 
 objects.defaults = function(target, defaults) {
     for (var d in defaults) {
-        if (target[d] !== undefined) {
+        if (target[d] === undefined) {
             target[d] = defaults[d];
         }
     }
