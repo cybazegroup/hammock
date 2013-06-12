@@ -34,8 +34,8 @@
                     <sourceIncludes>
                         <include>arrays.js</include>
                         <include>functions.js</include>
-                        <include>objects.js</include>
                         <include>types.js</include>
+                        <include>objects.js</include>
                         <include>dbc.js</include>
                         <include>browser.js</include>
                         <include>iterators.js</include>

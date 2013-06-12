@@ -24,3 +24,7 @@ types.isFunction = function(obj){
     return Object.prototype.toString.call(obj) === '[object Function]'
 }
 
+types.type = function(obj){
+    var repr=Object.prototype.toString.call(obj);
+    return repr.match(/\[object (.+)\]/)[1].toLowerCase();
+}
