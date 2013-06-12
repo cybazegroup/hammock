@@ -38,7 +38,7 @@ objects.shallow_copy = function(o) {
         /* typeof null == 'object' in internet explorer */
         return o;
     }
-    switch (typeof o) {
+    switch (types.type(o)) {
         case 'object':
             return objects.override({}, o);
         case 'array':
@@ -61,7 +61,7 @@ objects.deep_copy = function(obj) {
         if (i !== -1) {
             return mapping[i];
         }
-        switch (typeof o) {
+        switch (types.type(o)) {
             case 'object':
                 seen.push(o);
                 var copy = objects.override({}, o, f);
