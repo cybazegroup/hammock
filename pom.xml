@@ -32,9 +32,9 @@
                     <jsSrcDir>${project.basedir}/src/main/resources/hammock</jsSrcDir>
                     <jsTestSrcDir>${project.basedir}/src/test/resources/hammock</jsTestSrcDir>
                     <sourceIncludes>
+                        <include>types.js</include>
                         <include>arrays.js</include>
                         <include>functions.js</include>
-                        <include>types.js</include>
                         <include>objects.js</include>
                         <include>dbc.js</include>
                         <include>browser.js</include>

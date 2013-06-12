@@ -282,7 +282,7 @@ Array.prototype.flatten = function() {
     var result = [];
     for (var c = 0; c !== this.length; ++c) {
         var inner = this[c];
-        if (Object.prototype.toString.call(inner) !== '[object Array]') {
+        if (types.type(inner) !== 'array') {
             throw new Error("cannot flatten a non-array element");
         }
         for (var i = 0; i !== inner.length; ++i) {
