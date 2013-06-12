@@ -204,6 +204,18 @@ function is_odd(e){
     return e % 2 !== 0;
 }
 
+function is_true(e) {
+    return e === true;
+}
+
+function is_false(e) {
+    return e === false;
+}
+
+function is_a(one) {
+    return function(other) {return one === other;}
+}
+
 function is(lhs, rhs){
     return lhs === rhs;
 }
