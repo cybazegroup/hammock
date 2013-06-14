@@ -1,37 +1,37 @@
 var objects = {};
 
-objects.ordering_policy = {}
-objects.ordering_policy.Natural = {ordering_policy: 'natural'}
-objects.ordering_policy.Lexicographical = {ordering_policy: 'lexicographical'}
+objects.ordering_policy = {};
+objects.ordering_policy.Natural = {ordering_policy: 'natural'};
+objects.ordering_policy.Lexicographical = {ordering_policy: 'lexicographical'};
 
 objects.keys = function(obj, ordering_policy) {
-    var keys = []
+    var keys = [];
     for (var key in obj) {
-        keys.push(key)
+        keys.push(key);
     }
     if (ordering_policy === objects.ordering_policy.Lexicographical) {
         keys.sort();
     }
     return keys;
-}
+};
 
 objects.values = function(obj, ordering_policy) {
     var keys = objects.keys(obj, ordering_policy);
-    var values = []
+    var values = [];
     for (var i = 0; i !== keys.length; ++i) {
         values.push(obj[keys[i]]);
     }
     return values;
-}
+};
 
 objects.pairs = function(obj, ordering_policy) {
     var keys = objects.keys(obj, ordering_policy);
-    var out = []
+    var out = [];
     for (var i = 0; i !== keys.length; ++i) {
-        out.push([keys[i], obj[keys[i]]])
+        out.push([keys[i], obj[keys[i]]]);
     }
     return out;
-}
+};
 
 objects.shallow_copy = function(o) {
     if(o === null ){
@@ -46,7 +46,7 @@ objects.shallow_copy = function(o) {
         default:
             return o;
     }
-}
+};
 
 
 objects.deep_copy = function(obj) {
@@ -98,7 +98,7 @@ objects.remove = function() {
         delete o[field];
     }
     return removed;
-}
+};
 
 objects.defaults = function(target, defaults) {
     for (var d in defaults) {
@@ -107,7 +107,7 @@ objects.defaults = function(target, defaults) {
         }
     }
     return target;
-}
+};
 
 objects.override = function(target, src, fn/*(value)*/) {
     fn = fn ? fn : identity;
@@ -115,7 +115,7 @@ objects.override = function(target, src, fn/*(value)*/) {
         target[d] = fn(src[d]);
     }
     return target;
-}
+};
 
 objects.substitute = function(target, src) {
     for (var d in src) {
@@ -124,7 +124,7 @@ objects.substitute = function(target, src) {
         }
     }
     return target;
-}
+};
 
 objects.merge = function(destination/*,srcs..*/) {
     for (var i = 1; i !== arguments.length; ++i) {
@@ -144,20 +144,20 @@ objects.merge = function(destination/*,srcs..*/) {
         }
     }
     return destination;
-}
+};
 
 /**
  * pluck.curry('a')({a: 'value'}) => 'value'
  */
 objects.pluck = function(what, from) {
     return from[what];
-}
+};
 
 objects.global = function(){
     return (function(){ 
         return this || (1,eval)('this')
     })();
-}
+};
 
 objects.namespace = function(name){
     var current = objects.global();
@@ -165,4 +165,4 @@ objects.namespace = function(name){
         current = current[part] = current[part] || {};
     });
     return current;
-}
+};
