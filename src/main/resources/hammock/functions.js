@@ -4,7 +4,7 @@ Function.prototype.curry = function() {
     return function() {
         return fn.apply(this, args.concat(Array.prototype.slice.call(arguments)));
     };
-}
+};
 
 Function.prototype.rcurry = function() {
     var fn = this;
@@ -12,7 +12,7 @@ Function.prototype.rcurry = function() {
     return function() {
         return fn.apply(this, Array.prototype.slice.call(arguments).concat(args));
     };
-}
+};
 
 Function.prototype.pcurry = function(/*[0,'a'],[1,'b']*/) {
     var fn = this;
@@ -34,7 +34,7 @@ Function.prototype.pcurry = function(/*[0,'a'],[1,'b']*/) {
         }
         return fn.apply(this, c);
     };
-}
+};
 
 Function.prototype.partial = Function.prototype.curry;
 Function.prototype.partialr = Function.prototype.rcurry;
@@ -46,51 +46,51 @@ Function.prototype.bind = function(scope) {
     return function() {
         return fn.apply(scope, arguments);
     };
-}
+};
 
 Function.prototype.nary = function(arity, scope/*[optional]*/) {
     var fn = this;
     return function() {
-        return fn.apply(scope || this, Array.prototype.slice.call(arguments, 0, arity))
-    }
-}
+        return fn.apply(scope || this, Array.prototype.slice.call(arguments, 0, arity));
+    };
+};
 
 Function.prototype.nullary = function(scope/*[optional]*/) {
     return Function.prototype.nary.call(scope || this, 0);
-}
+};
 
 Function.prototype.unary = function(scope/*[optional]*/) {
     return Function.prototype.nary.call(scope || this, 1);
-}
+};
 
 Function.prototype.binary = function(scope/*[optional]*/) {
     return Function.prototype.nary.call(scope || this, 2);
-}
+};
 
 Function.prototype.ternary = function(scope/*[optional]*/) {
     return Function.prototype.nary.call(scope || this, 3);
-}
+};
 
 Function.prototype.intercept = function(interceptor/*(inner, arguments)*/, scope /*[optional]*/) {
     var inner = this;
     return function() {
-        return interceptor.call(scope || this, inner, Array.prototype.slice.call(arguments))
-    }
-}
+        return interceptor.call(scope || this, inner, Array.prototype.slice.call(arguments));
+    };
+};
 
 Function.prototype.and_then = function(after/*(arguments)*/, scope /*[optional]*/) {
     var self = this;
     return function() {
         return after.call(scope || this, self.apply(scope || this, arguments));
-    }
-}
+    };
+};
 
 Function.prototype.preceded_by = function(before/*(arguments)*/, scope/*[optional]*/) {
     var self = this;
     return function() {
         return self.call(scope || this, before.apply(scope || this, arguments));
-    }
-}
+    };
+};
 
 Function.prototype.when = function(pred, scope){
     var self = this;
@@ -99,8 +99,8 @@ Function.prototype.when = function(pred, scope){
             return;
         }
         return self.apply(scope || this, arguments);
-    }
-}
+    };
+};
 
 Function.prototype.unless = function(pred, scope){
     var self = this;
@@ -109,51 +109,51 @@ Function.prototype.unless = function(pred, scope){
             return;
         }
         return self.apply(scope || this, arguments);
-    }
-}
+    };
+};
 
 Function.prototype.meta = function(meta) {
     for (var d in meta) {
         this[d] = meta[d];
     }
-    return this
-}
+    return this;
+};
 
 Function.prototype.meta_matches = function(meta) {
     for (var k in meta) {
         if (this[k] !== meta[k]) {
-            return false
+            return false;
         }
     }
-    return true
-}
+    return true;
+};
 
 
 Function.prototype.with_param = function(at, scope/*[optional]*/){
     var self = this;
     return function(){
         return self.apply(scope || this, arguments[at]);
-    }
-}
+    };
+};
 
 Function.prototype.with_first_param = function(scope/*[optional]*/){
     return this.with_param(0, scope);
-}
+};
 
 Function.prototype.with_second_param = function(scope/*[optional]*/){
     return this.with_param(1, scope);
-}
+};
 
 Function.prototype.with_third_param = function(scope/*[optional]*/){
     return this.with_param(2, scope);
-}
+};
 
 Function.prototype.slicing_params = function(from, to, scope/*[optional]*/){
     var self = this;
     return function(){
         return self.apply(scope || this, Array.prototype.slice.call(arguments, from, to));
-    }
-}
+    };
+};
 
 function first_param(){
     return arguments[0];
@@ -181,11 +181,11 @@ function identity(i) {
 }
 
 function never() {
-    return false
+    return false;
 }
 
 function always() {
-    return true
+    return true;
 }
 
 function sum(acc, v){
@@ -213,7 +213,7 @@ function is_false(e) {
 }
 
 function is_a(one) {
-    return function(other) {return one === other;}
+    return function(other) {return one === other; };
 }
 
 function is(lhs, rhs){
