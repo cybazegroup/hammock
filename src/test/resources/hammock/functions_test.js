@@ -342,5 +342,136 @@ describe('functions.always', function() {
     });
 });
 
+describe('functions.sum', function() {
+    it('should add value and accumulator', function() {
+        expect(sum(0, 1)).toEqual(1);
+    });
+});
+
+describe('functions.count', function() {
+    it('should retur accumulator + 1', function() {
+        expect(count(0)).toEqual(1);
+    });
+});
+
+describe('functions.is_even', function() {
+    it('should return true if value is even', function() {
+        expect(is_even(2)).toBeTruthy();
+    });
+    
+    it('should return false if value is odd', function() {
+        expect(is_even(1)).toBeFalsy();
+    });
+});
+
+describe('functions.is_odd', function() {
+    it('should return false if value is even', function() {
+        expect(is_odd(2)).toBeFalsy();
+    });
+    
+    it('should return true if value is odd', function() {
+        expect(is_odd(1)).toBeTruthy();
+    });
+});
+        
+describe('functions.is_true', function() {
+    it('should return true if value is true', function() {
+        expect(is_true(true)).toBeTruthy();
+    });
+    
+    it('should return false if value is false', function() {
+        expect(is_true(false)).toBeFalsy();
+    });
+});
+
+describe('functions.is_false', function() {
+    it('should return false if value is true', function() {
+        expect(is_false(true)).toBeFalsy();
+    });
+    
+    it('should return true if value is false', function() {
+        expect(is_false(false)).toBeTruthy();
+    });
+});
+
+describe('functions.is', function() {
+    it('should return true if strict equality evaluates true', function() {
+        expect(is(1, 1)).toBeTruthy();
+    });
+    
+    it('should return false if strict equality evaluates false ', function() {
+        expect(is(1, '1')).toBeFalsy();
+    });
+});
+
+describe('functions.eq', function() {
+    it('should return true if equality evaluates true', function() {
+        expect(eq(1, 1)).toBeTruthy();
+    });
+    
+    it('should return true if equality evaluates true after cast', function() {
+        expect(eq(1, '1')).toBeTruthy();
+    });
+    
+    it('should return false if equality evaluates false ', function() {
+        expect(eq(1, 2)).toBeFalsy();
+    });
+});
+
+describe('functions.lt', function() {
+    it('should return true if lhs < rhs', function() {
+        expect(lt(0, 1)).toBeTruthy();
+    });
+    
+    it('should return false if lhs == rhs', function() {
+        expect(lt(0, 0)).toBeFalsy();
+    });
+    
+    it('should return false if lhs > rhs', function() {
+        expect(lt(1, 0)).toBeFalsy();
+    });
+});
+
+describe('functions.gt', function() {
+    it('should return true if lhs > rhs', function() {
+        expect(gt(1, 0)).toBeTruthy();
+    });
+    
+    it('should return false if lhs == rhs', function() {
+        expect(gt(0, 0)).toBeFalsy();
+    });
+    
+    it('should return false if lhs < rhs', function() {
+        expect(gt(0, 1)).toBeFalsy();
+    });
+});
+
+describe('functions.lte', function() {
+    it('should return true if lhs < rhs', function() {
+        expect(lte(0, 1)).toBeTruthy();
+    });
+    
+    it('should return true if lhs == rhs', function() {
+        expect(lte(0, 0)).toBeTruthy();
+    });
+    
+    it('should return false if lhs > rhs', function() {
+        expect(lte(1, 0)).toBeFalsy();
+    });
+});
+
+describe('functions.gte', function() {
+    it('should return true if lhs > rhs', function() {
+        expect(gte(1, 0)).toBeTruthy();
+    });
+    
+    it('should return true if lhs == rhs', function() {
+        expect(gte(0, 0)).toBeTruthy();
+    });
+    
+    it('should return false if lhs < rhs', function() {
+        expect(gte(0, 1)).toBeFalsy();
+    });
+});
 
 
