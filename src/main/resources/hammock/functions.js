@@ -132,7 +132,7 @@ Function.prototype.meta_matches = function(meta) {
 Function.prototype.with_param = function(at, scope/*[optional]*/){
     var self = this;
     return function(){
-        return self.apply(scope || this, arguments[at]);
+        return self.call(scope || this, arguments[at]);
     };
 };
 
@@ -170,7 +170,7 @@ function third_param(){
 function param(n){
     return function(){
         return arguments[n];
-    }
+    };
 }
 
 function noop() {
