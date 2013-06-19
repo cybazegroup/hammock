@@ -9,14 +9,24 @@ var dbc = {
 
 
 dbc.defineError = function(name) {
-    var ctor = function(message) {
-        Error.apply(this, arguments);
-        this.message = message;
+    if(objects.global().chrome){
+        //http://code.google.com/p/chromium/issues/detail?id=228909
+        var ctor = function(message) {
+            var result = new Error(message);
+            result.name = name;
+            return result;
+        }
+        return ctor;
+    }else{
+        var ctor = function(message) {
+            Error.apply(this, arguments);
+            this.message = message;
+        }
+        ctor.prototype = new Error();
+        ctor.prototype.constructor = ctor;
+        ctor.prototype.name = name;
+        return ctor;
     }
-    ctor.prototype = new Error();
-    ctor.prototype.constructor = ctor;
-    ctor.prototype.name = name;
-    return ctor;
 }
 
 dbc.PreconditionFailed = dbc.defineError("PreconditionFailed");
