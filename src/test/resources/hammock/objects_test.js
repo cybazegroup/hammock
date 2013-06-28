@@ -194,6 +194,17 @@ describe('objects.pluck', function() {
     });
 });
 
+describe('objects.deep_pluck', function() {
+    it('can pluck from nested objects', function() {
+        var data = {a:{b:1}};
+        expect(objects.deep_pluck('a.b', data)).toEqual(1);
+    });
+    it('plucking from an undefined key throws', function() {
+        var data = {};
+        expect(function(){objects.deep_pluck('a.b', data)}).toThrow();
+    });
+});
+
 describe('objects.global', function() {
     it('returns a reference to the global object', function() {
         expect(objects.global()).not.toBe(null);

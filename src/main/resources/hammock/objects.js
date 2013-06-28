@@ -153,6 +153,10 @@ objects.pluck = function(what, from) {
     return from[what];
 };
 
+objects.deep_pluck = function(what, from) {
+    return what.split(".").reduce(objects.pluck.flip().binary(), from);
+};
+
 objects.global = function(){
     return (function(){ 
         return this || (1,eval)('this')
