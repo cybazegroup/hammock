@@ -38,6 +38,17 @@ describe('functions.bind', function() {
     });
 });
 
+describe('functions.flip', function() {
+    it('should flip arguments', function() {
+        var table = function(first, second) {
+            return [first, second];
+        };
+        var fn = table.flip()
+        var got = fn(1,2);
+        expect(got).toEqual([2,1]);
+    });
+});
+
 describe('functions.nary', function() {
     it('should force function arity', function() {
         var fn = function() {
