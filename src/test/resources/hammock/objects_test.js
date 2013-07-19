@@ -89,6 +89,21 @@ describe('objects.deep_copy', function() {
         var got = objects.deep_copy(data);
         expect(got.b !== data.b).toBeTruthy(); // same object
     });
+    
+    it('should return deep copy of object with multiple references to same object', function() {
+        var a = {b: 'value'}
+        var data = {a: a, b: a};
+        var got = objects.deep_copy(data);
+        expect(got).toEqual(data);
+    });
+    
+    it('should return deep copy of object with multiple references to same array', function() {
+        var a = ['value']
+        var data = {a: a, b: a};
+        var got = objects.deep_copy(data);
+        expect(got).toEqual(data);
+    });
+    
 });
 
 describe('objects.remove', function() {
