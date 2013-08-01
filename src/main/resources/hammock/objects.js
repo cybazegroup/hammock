@@ -59,17 +59,17 @@ objects.deep_copy = function(obj) {
         }
         var i = seen.indexOf(o);
         if (i !== -1) {
-            return mapping[i];
+           return mapping[i];
         }
         switch (types.type(o)) {
             case 'object':
-                seen.push(o);
                 var copy = objects.override({}, o, f);
+                seen.push(o);
                 mapping.push(copy);
                 return copy;
             case 'array':
-                seen.push(o);
                 var copy = o.map(f);
+                seen.push(o);
                 mapping.push(copy);
                 return copy;
             default:
@@ -151,6 +151,10 @@ objects.merge = function(destination/*,srcs..*/) {
  */
 objects.pluck = function(what, from) {
     return from[what];
+};
+
+objects.deep_pluck = function(what, from) {
+    return what.split(".").reduce(objects.pluck.flip().binary(), from);
 };
 
 objects.global = function(){

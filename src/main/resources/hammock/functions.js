@@ -48,6 +48,14 @@ Function.prototype.bind = function(scope) {
     };
 };
 
+Function.prototype.flip = function() {
+    var fn = this;
+    return function() {
+        var args = Array.prototype.slice.call(arguments);
+        return fn.apply(this, args.reverse());
+    };
+};
+
 Function.prototype.nary = function(arity, scope/*[optional]*/) {
     var fn = this;
     return function() {

@@ -89,6 +89,21 @@ describe('objects.deep_copy', function() {
         var got = objects.deep_copy(data);
         expect(got.b !== data.b).toBeTruthy(); // same object
     });
+    
+    it('should return deep copy of object with multiple references to same object', function() {
+        var a = {b: 'value'}
+        var data = {a: a, b: a};
+        var got = objects.deep_copy(data);
+        expect(got).toEqual(data);
+    });
+    
+    it('should return deep copy of object with multiple references to same array', function() {
+        var a = ['value']
+        var data = {a: a, b: a};
+        var got = objects.deep_copy(data);
+        expect(got).toEqual(data);
+    });
+    
 });
 
 describe('objects.remove', function() {
@@ -191,6 +206,17 @@ describe('objects.pluck', function() {
     it('can pluck different kv from different source', function() {
         var data = {a:1, b:2};
         expect(objects.pluck('a', data)).toEqual(1);
+    });
+});
+
+describe('objects.deep_pluck', function() {
+    it('can pluck from nested objects', function() {
+        var data = {a:{b:1}};
+        expect(objects.deep_pluck('a.b', data)).toEqual(1);
+    });
+    it('plucking from an undefined key throws', function() {
+        var data = {};
+        expect(function(){objects.deep_pluck('a.b', data)}).toThrow();
     });
 });
 
