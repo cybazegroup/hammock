@@ -53,7 +53,7 @@ objects.deep_copy = function(obj) {
     var seen = [];
     var mapping = [];
     var f = function(o) {
-        if( o === null ){ 
+        if( o === null ){
             /* typeof null == 'object' in internet explorer */
             return o;
         }
@@ -158,7 +158,7 @@ objects.deep_pluck = function(what, from) {
 };
 
 objects.global = function(){
-    return (function(){ 
+    return (function(){
         return this || (1,eval)('this')
     })();
 };
@@ -170,3 +170,30 @@ objects.namespace = function(name){
     });
     return current;
 };
+
+objects.extend = function(base_ctor, ctor) {
+    function F(){}
+    F.prototype = base_ctor.prototype
+    ctor.prototype = new F();
+    ctor.prototype.constructor = ctor;
+    return ctor;
+}
+
+objects.define = function(name, definitions){
+    var constructor = definitions.constructor || function(){ objects.callParent(this, arguments); };
+    var created = objects.extend(definitions.extend || function(){}, constructor);
+    for(var d in definitions){
+        if(!['constructor','statics','extend'].contains(d)){
+            var value = definitions[d];
+            created.prototype[d] = value;
+        }
+    }
+    for(var s in definitions.statics){
+        constructor[s] = definitions.statics[s];
+    }
+    var namespaceAndName = /(?:(.*)\.)?(.*)/.exec(name);
+    var namespace = namespaceAndName[1] ? objects.namespace(namespaceAndName[1]) : objects.global();
+    var className = namespaceAndName[2];
+    namespace[className] = created;
+    return created;
+}
