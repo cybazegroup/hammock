@@ -180,8 +180,8 @@ objects.extend = function(base_ctor, ctor) {
 }
 
 objects.define = function(name, definitions){
-    var constructor = definitions.constructor || function(){ objects.callParent(this, arguments); };
-    var created = objects.extend(definitions.extend || function(){}, constructor);
+    dbc.precondition.is_fun(definitions.constructor, "constructor must be configured");
+    var created = objects.extend(definitions.extend || Object, definitions.constructor);
     for(var d in definitions){
         if(!['constructor','statics','extend'].contains(d)){
             var value = definitions[d];
@@ -189,7 +189,7 @@ objects.define = function(name, definitions){
         }
     }
     for(var s in definitions.statics){
-        constructor[s] = definitions.statics[s];
+        definitions.constructor[s] = definitions.statics[s];
     }
     var namespaceAndName = /(?:(.*)\.)?(.*)/.exec(name);
     var namespace = namespaceAndName[1] ? objects.namespace(namespaceAndName[1]) : objects.global();
