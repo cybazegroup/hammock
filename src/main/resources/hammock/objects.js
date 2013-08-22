@@ -180,6 +180,7 @@ objects.extend = function(base_ctor, ctor) {
 }
 
 objects.define = function(name, definitions){
+    dbc.precondition.not_empty(name, "name must be nonempty");
     dbc.precondition.is_fun(definitions.constructor, "constructor must be configured");
     var created = objects.extend(definitions.extend || Object, definitions.constructor);
     for(var d in definitions){
