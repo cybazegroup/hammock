@@ -291,3 +291,24 @@ Array.prototype.flatten = function() {
     }
     return result;
 };
+
+Array.prototype.group_by = function(fn){
+    var res = {};
+    for(var i=0;i!==this.length;++i){
+        var v= this[i], k = fn(v);
+        if(!res[k]){
+            res[k] = [];
+        }
+        res[k].push(v);
+    }
+    return res;
+};
+
+Array.prototype.index_by = function(fn){
+    var res = {};
+    for(var i=0;i!==this.length;++i){
+        var v= this[i];
+        res[fn(v)]= v;
+    }
+    return res;
+};
