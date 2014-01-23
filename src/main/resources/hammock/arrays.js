@@ -292,10 +292,11 @@ Array.prototype.flatten = function() {
     return result;
 };
 
-Array.prototype.group_by = function(fn){
+Array.prototype.group_by = function(fn, self){
+    self = self || this;
     var res = {};
     for(var i=0;i!==this.length;++i){
-        var v= this[i], k = fn(v);
+        var v= this[i], k = fn.call(self, v);
         if(!res[k]){
             res[k] = [];
         }
@@ -304,11 +305,19 @@ Array.prototype.group_by = function(fn){
     return res;
 };
 
-Array.prototype.index_by = function(fn){
+Array.prototype.index_by = function(fn, self){
+    self = self || this;
     var res = {};
     for(var i=0;i!==this.length;++i){
         var v= this[i];
-        res[fn(v)]= v;
+        res[fn.call(self, v)]= v;
     }
     return res;
 };
+
+Array.prototype.flatMap = function (fn, self) {
+    self = self || this;
+    return this.reduce(function(acc, v, i){
+        return acc.concat(fn.call(self, v, i))
+    }, []);    
+}
