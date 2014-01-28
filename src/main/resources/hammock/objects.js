@@ -198,3 +198,11 @@ objects.define = function(name, definitions){
     namespace[className] = created;
     return created;
 }
+
+objects.invoker = function(m, args, scope){
+    return function(o){
+        var others = Array.prototype.slice.call(arguments, 1);
+        var all = Array.prototype.concat.call(args||[], others);
+        return o[m].apply(scope || o, all);
+    };
+};

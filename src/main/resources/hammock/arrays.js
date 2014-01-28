@@ -318,6 +318,6 @@ Array.prototype.index_by = function(fn, self){
 Array.prototype.flatMap = function (fn, self) {
     self = self || this;
     return this.reduce(function(acc, v, i){
-        return acc.concat(fn.call(self, v, i))
+        return acc.concat(fn.call(self, v, i));
     }, []);    
-}
+};
