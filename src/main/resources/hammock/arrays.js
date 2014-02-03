@@ -12,6 +12,19 @@ hammock.array.indexOf = function(needle) {
 }
 Array.prototype.indexOf = Array.prototype.indexOf || hammock.array.indexOf;
 
+hammock.array.lastIndexOf = function(needle, fromIndex) {
+    if (this.length === 0) {
+        return -1;
+    }
+    var start = (!!fromIndex && fromIndex < 0) ? this.length + fromIndex - 1 : this.length - 1;
+    var stop =  (!!fromIndex && fromIndex > 0) ? fromIndex : 0;
+    for (var index = start; index >= stop; --index) {
+        if (this[index] === needle) return index;
+    }
+    return -1;
+}
+Array.prototype.lastIndexOf = Array.prototype.lastIndexOf || hammock.array.lastIndexOf;
+
 hammock.array.isEmpty = function() {
     return this.length === 0;
 };
@@ -83,6 +96,7 @@ Array.prototype.fold = function(fn/*(accumulator, value, index, array)*/, init, 
     }
     return accumulator;
 };
+Array.prototype.reduce = Array.prototype.reduce || Array.prototype.fold;
 
 /**
  * foldr(f, init, [x0, x1, x2]) => f(f(f(init, x2), x1), x0)
@@ -94,7 +108,7 @@ Array.prototype.foldr = function(fn/*accumulator, value, index, array*/, init, s
     }
     return accumulator;
 }
-
+Array.prototype.reduceRight = Array.prototype.reduceRight || Array.prototype.foldr;
 
 /**
  * Tests whether some element in the array passes the test implemented by the provided function.

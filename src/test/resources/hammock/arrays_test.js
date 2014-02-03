@@ -18,6 +18,38 @@ describe('hammock.array.indexOf', function() {
     });
 });
 
+describe('hammock.array.lastIndexOf', function() {
+    it('should return index of contained element', function() {
+        var data = ['a', 'b', 'c'];
+        var got = hammock.array.lastIndexOf.call(data, 'c');
+        expect(got).toEqual(2);
+    });
+
+    it('should return -1 if element is not contained', function() {
+        var data = ['a', 'b', 'c'];
+        var got = hammock.array.lastIndexOf.call(data, 'z');
+        expect(got).toEqual(-1);
+    });
+
+    it('should return index of last occurrence of element', function() {
+        var data = ['a', 'a', 'a'];
+        var got = hammock.array.lastIndexOf.call(data, 'a');
+        expect(got).toEqual(2);
+    });
+    
+    it('should return index of last occurrence of element excluding last', function() {
+        var data = ['a', 'b', 'c'];
+        var got = hammock.array.lastIndexOf.call(data, 'c', -1);
+        expect(got).toEqual(-1);
+    });
+    
+    it('should return index of last occurrence of element excluding first', function() {
+        var data = ['a', 'b', 'c'];
+        var got = hammock.array.lastIndexOf.call(data, 'a', 1);
+        expect(got).toEqual(-1);
+    });
+});
+
 describe('hammock.array.isEmpty', function() {
     it('should return true for an empty array', function() {
         var data = [];
