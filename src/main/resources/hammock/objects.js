@@ -154,7 +154,7 @@ objects.pluck = function(what, from) {
 };
 
 objects.deep_pluck = function(what, from) {
-    return what.split(".").reduce(objects.pluck.flip().binary(), from);
+    return what.split(".").fold(objects.pluck.flip().binary(), from);
 };
 
 objects.global = function(){
