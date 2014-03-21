@@ -93,6 +93,13 @@ dbc.assertion.number = function(type, value, error_fmt/*, args...*/) {
     throw dbc.make_error(type, error_fmt, Array.prototype.slice.call(arguments, 3));
 }
 
+dbc.assertion.string = function(type, value, error_fmt/*, args...*/) {
+    if (types.isString(value)) {
+        return value;
+    }
+    throw dbc.make_error(type, error_fmt, Array.prototype.slice.call(arguments, 3));
+}
+
 dbc.assertion.positive = function(type, value, error_fmt/*, args...*/) {
     if (types.isNumber(value) && value > 0) {
         return value;
