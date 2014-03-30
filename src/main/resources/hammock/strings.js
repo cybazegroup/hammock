@@ -31,10 +31,10 @@ String.template = function(str, hash, formatters) {
 
 String.prototype.format = function() {
     var values = arguments;
-    var possiblyFormatters = Array.prototype.last.call(arguments);
+    var formatters = arguments.length ? Array.prototype.last.call(arguments) : {};
     return this.replace(/{(\d+)(?::(\w+))?}/g, function(_, id, formatter) {
         var value = values[+id];
-        return formatter && possiblyFormatters[formatter] ? possiblyFormatters[formatter](value): value;
+        return formatter && formatters[formatter] ? formatters[formatter](value): value;
     });
 };
 
