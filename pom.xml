@@ -4,7 +4,7 @@
     <groupId>net.emaze</groupId>
     <artifactId>emaze-hammock</artifactId>
     <name>emaze-hammock</name>
-    <version>1.9</version>
+    <version>1.10-SNAPSHOT</version>
     <packaging>jar</packaging>
     <parent>
         <groupId>net.emaze</groupId>
@@ -46,8 +46,4 @@
             </plugin>
         </plugins>
     </build>
-
-  <scm>
-    <tag>1.9</tag>
-  </scm>
 </project>
