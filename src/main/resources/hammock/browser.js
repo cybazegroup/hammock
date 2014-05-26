@@ -7,12 +7,16 @@ browser.details.isInternetExplorer = function(){
 browser.redirect = function(loc) {
     if (browser.details.isInternetExplorer() && !/^https?:\/\//.test(loc)) {
         var b = document.getElementsByTagName('base');
-        if (b && b[0] && b[0].href) {
-            if (b[0].href.substr(b[0].href.length-1) === '/' && loc.charAt(0) === '/')
+        if (b && b[0] && b[0].href){
+            var basepath = b[0].href
+            if (b[0].href.substr(b[0].href.length-1) === '/' && loc.charAt(0) === '/'){
+                var basepathParts  = basepath.split('/');
+                basepath = "{0}//{2}/".template(basepathParts)
                 loc = loc.substr(1);
-            loc = b[0].href + loc;
-        }
-    }
+            }
+            loc = basepath + loc;
+        } 
+    } 
     location.href = loc;
 };
 
