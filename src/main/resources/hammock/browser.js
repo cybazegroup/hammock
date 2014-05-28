@@ -1,55 +1,54 @@
-var browser = { details: {}};
+var browser = {details: {}};
 
-browser.details.isInternetExplorer = function(){
+browser.details.isInternetExplorer = function() {
     return !/opera/i.test(navigator.userAgent) && /msie/i.test(navigator.userAgent);
 };
 
 browser.redirect = function(loc) {
     if (browser.details.isInternetExplorer() && !/^https?:\/\//.test(loc)) {
         var b = document.getElementsByTagName('base');
-        if (b && b[0] && b[0].href){
-            var basepath = b[0].href
-            if (b[0].href.substr(b[0].href.length-1) === '/' && loc.charAt(0) === '/'){
-                var basepathParts  = basepath.split('/');
-                basepath = "{0}//{2}/".template(basepathParts)
+        if (b && b[0] && b[0].href) {
+            var basepath = b[0].href;
+            if (b[0].href.substr(b[0].href.length - 1) === '/' && loc.charAt(0) === '/') {
+                var basepathParts = basepath.split('/');
+                basepath = "{0}//{2}/".template(basepathParts);
                 loc = loc.substr(1);
             }
             loc = basepath + loc;
-        } 
-    } 
+        }
+    }
     location.href = loc;
 };
 
-browser.download = function(url){
-    if(browser.details.isInternetExplorer()){
+browser.download = function(url) {
+    if (browser.details.isInternetExplorer()) {
         var link = document.createElement('a');
         link.href = url;
         document.body.appendChild(link);
         link.click();
-    }else{
+    } else {
         location.href = url;
     }
 };
 
-browser.download_url = function(url, filename){
+browser.download_url = function(url, filename) {
     var link = document.createElement('a');
     link.setAttribute('download', filename);
     link.setAttribute('href', url);
-    link.click();    
+    link.click();
 };
 
-browser.document_styles = function(doc, filter) {
-    return Array.prototype.filter.call(doc.styleSheets || [], filter)
-    .filter(function(ss) {
+browser.document_styles = function(doc, styleSheetFilter, ruleFilter) {
+    return Array.prototype.filter.call(doc.styleSheets || [], styleSheetFilter || always).filter(function(ss) {
         return !!ss.cssRules;
-    }).map(function(ss) {
+    }).flatMap(function(ss) {
         return Array.prototype.slice.call(ss.cssRules || []);
-    }).flatten().filter(function(rule) {
+    }).filter(function(rule) {
         return !!rule.selectorText;
     }).filter(function(rule) {
         //illustrator has problems with child selectors
         return !rule.selectorText.contains(">");
-    }).map(function(rule) {
+    }).filter(ruleFilter || always).map(function(rule) {
         return rule.cssText;
     }).join('\n');
 };
