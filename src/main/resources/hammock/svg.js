@@ -6,8 +6,8 @@ svg.export_type = {
     jpg: { mime_type: 'image/jpg'}
 };
 
-svg.download = function(filename, export_as, svgTag, stylesFilter) {
-    var styles = browser.document_styles(window.document, stylesFilter);
+svg.download = function(filename, export_as, svgTag, styleSheetsFilter, styleSheetRulesFilter) {
+    var styles = browser.document_styles(window.document, styleSheetsFilter, styleSheetRulesFilter);
     var stylesTag = document.createElement('style');
     stylesTag.innerHTML = ['<![C', 'DATA[', styles, ']', ']>'].join('');
 
