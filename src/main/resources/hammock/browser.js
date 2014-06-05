@@ -31,12 +31,14 @@ browser.download = function(url) {
     }
 };
 
-browser.download_url = function(url, filename) {
+browser.download_url = function (url, filename) {
     var link = document.createElement('a');
     link.setAttribute('download', filename);
     link.setAttribute('href', url);
+    document.body.appendChild(link);
     link.click();
-};
+    document.body.removeChild(link);
+}
 
 browser.document_styles = function(doc, styleSheetFilter, ruleFilter) {
     return Array.prototype.filter.call(doc.styleSheets || [], styleSheetFilter || always).filter(function(ss) {
