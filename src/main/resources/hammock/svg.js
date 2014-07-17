@@ -9,7 +9,7 @@ svg.export_type = {
 svg.download = function(filename, export_as, svgTag, styleSheetsFilter, styleSheetRulesFilter) {
     var styles = browser.document_styles(window.document, styleSheetsFilter, styleSheetRulesFilter);
     var stylesTag = document.createElement('style');
-    stylesTag.innerHTML = ['<![C', 'DATA[', styles, ']', ']>'].join('');
+    stylesTag.innerHTML = styles;
 
     var clonedSvg = svgTag.cloneNode(true);
     clonedSvg.setAttribute('width', svgTag.clientWidth);
