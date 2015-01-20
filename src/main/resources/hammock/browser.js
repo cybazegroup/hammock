@@ -40,6 +40,20 @@ browser.download_url = function (url, filename) {
     document.body.removeChild(link);
 }
 
+browser.download_data = function (data, filename, /*optional*/ docType, /*optional*/ charset) {
+    var link = document.createElement('a');
+    var model = {
+        docType: docType || 'text/plain',
+        charset: charset || 'utf-8',
+        data: encodeURIComponent(data)
+    };
+    link.setAttribute('href', 'data:{docType};charset={charset},{data}'.template(model));
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+
 browser.document_styles = function(doc, styleSheetFilter, ruleFilter) {
     return Array.prototype.filter.call(doc.styleSheets || [], styleSheetFilter || always).filter(function(ss) {
         return !!ss.cssRules;
