@@ -64,19 +64,19 @@ Function.prototype.nary = function(arity, scope/*[optional]*/) {
 };
 
 Function.prototype.nullary = function(scope/*[optional]*/) {
-    return Function.prototype.nary.call(scope || this, 0);
+    return Function.prototype.nary.call(this, 0, scope);
 };
 
 Function.prototype.unary = function(scope/*[optional]*/) {
-    return Function.prototype.nary.call(scope || this, 1);
+    return Function.prototype.nary.call(this, 1, scope);
 };
 
 Function.prototype.binary = function(scope/*[optional]*/) {
-    return Function.prototype.nary.call(scope || this, 2);
+    return Function.prototype.nary.call(this, 2, scope);
 };
 
 Function.prototype.ternary = function(scope/*[optional]*/) {
-    return Function.prototype.nary.call(scope || this, 3);
+    return Function.prototype.nary.call(this, 3, scope);
 };
 
 Function.prototype.intercept = function(interceptor/*(inner, arguments)*/, scope /*[optional]*/) {
