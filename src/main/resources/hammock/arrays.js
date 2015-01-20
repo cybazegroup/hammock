@@ -2,7 +2,7 @@
 var hammock = hammock || {};
 hammock.array = hammock.array || {};
 
-hammock.array.indexOf = function(needle) {
+hammock.array.indexOf = function (needle) {
     for (var i = 0; i !== this.length; ++i) {
         if (this[i] === needle) {
             return i;
@@ -12,25 +12,26 @@ hammock.array.indexOf = function(needle) {
 }
 Array.prototype.indexOf = Array.prototype.indexOf || hammock.array.indexOf;
 
-hammock.array.lastIndexOf = function(needle, fromIndex) {
+hammock.array.lastIndexOf = function (needle, fromIndex) {
     if (this.length === 0) {
         return -1;
     }
     var start = (!!fromIndex && fromIndex < 0) ? this.length + fromIndex - 1 : this.length - 1;
-    var stop =  (!!fromIndex && fromIndex > 0) ? fromIndex : 0;
+    var stop = (!!fromIndex && fromIndex > 0) ? fromIndex : 0;
     for (var index = start; index >= stop; --index) {
-        if (this[index] === needle) return index;
+        if (this[index] === needle)
+            return index;
     }
     return -1;
 }
 Array.prototype.lastIndexOf = Array.prototype.lastIndexOf || hammock.array.lastIndexOf;
 
-hammock.array.isEmpty = function() {
+hammock.array.isEmpty = function () {
     return this.length === 0;
 };
 Array.prototype.isEmpty = Array.prototype.isEmpty || hammock.array.isEmpty;
 
-hammock.array.contains = function(needle) {
+hammock.array.contains = function (needle) {
     return this.indexOf(needle) !== -1;
 };
 Array.prototype.contains = Array.prototype.contains || hammock.array.contains;
@@ -38,7 +39,7 @@ Array.prototype.contains = Array.prototype.contains || hammock.array.contains;
 /**
  * not-in-place version of [].reverse()
  **/
-hammock.array.reversed = function() {
+hammock.array.reversed = function () {
     var result = new Array(this.length);
     for (var c = 0, i = this.length - 1; i !== -1; ++c, --i) {
         result[c] = this[i];
@@ -47,7 +48,7 @@ hammock.array.reversed = function() {
 };
 Array.prototype.reversed = Array.prototype.reversed || hammock.array.reversed;
 
-hammock.array.forEach = function(fn/*(value, index, array)*/, self) {
+hammock.array.forEach = function (fn/*(value, index, array)*/, self) {
     for (var i = 0; i !== this.length; ++i) {
         fn.call(self, this[i], i, this);
     }
@@ -58,7 +59,7 @@ Array.prototype.forEach = Array.prototype.forEach || hammock.array.forEach;
  * p = function(x,i){return x;}
  * filter(p, [true,false,true,false]) => [true,true]
  */
-hammock.array.filter = function(pred/*(value, index, array)*/, self) {
+hammock.array.filter = function (pred/*(value, index, array)*/, self) {
     var result = [];
     for (var i = 0; i !== this.length; ++i) {
         if (pred.call(self, this[i], i, this)) {
@@ -69,7 +70,7 @@ hammock.array.filter = function(pred/*(value, index, array)*/, self) {
 };
 Array.prototype.filter = Array.prototype.filter || hammock.array.filter;
 
-hammock.array.map = function(fn/*(value, index, array)*/, self) {
+hammock.array.map = function (fn/*(value, index, array)*/, self) {
     var result = new Array(this.length);
     for (var i = 0; i !== this.length; ++i) {
         result[i] = fn.call(self, this[i], i, this);
@@ -78,7 +79,7 @@ hammock.array.map = function(fn/*(value, index, array)*/, self) {
 };
 Array.prototype.map = Array.prototype.map || hammock.array.map;
 
-Array.prototype.mapr = function(fn/*(value, index, array)*/, self) {
+Array.prototype.mapr = function (fn/*(value, index, array)*/, self) {
     var result = new Array(this.length);
     for (var c = 0, i = this.length - 1; i !== -1; ++c, --i) {
         result[c] = fn.call(self, this[i], i, this);
@@ -89,7 +90,7 @@ Array.prototype.mapr = function(fn/*(value, index, array)*/, self) {
 /**
  * fold(f, init, [x0, x1, x2]) => f(f(f(init, x0), x1), x2)
  **/
-Array.prototype.fold = function(fn/*(accumulator, value, index, array)*/, init, self) {
+Array.prototype.fold = function (fn/*(accumulator, value, index, array)*/, init, self) {
     var accumulator = init;
     for (var i = 0; i !== this.length; ++i) {
         accumulator = fn.call(self, accumulator, this[i], i, this);
@@ -101,7 +102,7 @@ Array.prototype.reduce = Array.prototype.reduce || Array.prototype.fold;
 /**
  * foldr(f, init, [x0, x1, x2]) => f(f(f(init, x2), x1), x0)
  **/
-Array.prototype.foldr = function(fn/*accumulator, value, index, array*/, init, self) {
+Array.prototype.foldr = function (fn/*accumulator, value, index, array*/, init, self) {
     var accumulator = init;
     for (var i = this.length - 1; i !== -1; --i) {
         accumulator = fn.call(self, accumulator, this[i], i, this);
@@ -113,7 +114,7 @@ Array.prototype.reduceRight = Array.prototype.reduceRight || Array.prototype.fol
 /**
  * Tests whether some element in the array passes the test implemented by the provided function.
  **/
-hammock.array.some = function(pred/*(value, index, array)*/, self) {
+hammock.array.some = function (pred/*(value, index, array)*/, self) {
     for (var i = 0; i !== this.length; ++i) {
         if (pred.call(self, this[i], i, this)) {
             return true;
@@ -126,7 +127,7 @@ Array.prototype.some = Array.prototype.some || hammock.array.some;
 /**
  * when some is not enough.
  **/
-hammock.array.every = function(pred/*(value, index, array)*/, self) {
+hammock.array.every = function (pred/*(value, index, array)*/, self) {
     for (var i = 0; i !== this.length; ++i) {
         if (!pred.call(self, this[i], i, this)) {
             return false;
@@ -136,7 +137,7 @@ hammock.array.every = function(pred/*(value, index, array)*/, self) {
 };
 Array.prototype.every = Array.prototype.every || hammock.array.every;
 
-Array.prototype.dict = function() {
+Array.prototype.dict = function () {
     var result = {};
     for (var i = 0; i !== this.length; ++i) {
         result[this[i][0]] = this[i][1];
@@ -144,7 +145,7 @@ Array.prototype.dict = function() {
     return result;
 };
 
-Array.prototype.set = function() {
+Array.prototype.set = function () {
     var r = [];
     for (var i = 0; i !== this.length; ++i) {
         var current = this[i];
@@ -155,7 +156,7 @@ Array.prototype.set = function() {
     return r;
 };
 
-Array.prototype.duplicates = function() {
+Array.prototype.duplicates = function () {
     var visited = [];
     var duplicates = [];
     for (var i = 0; i !== this.length; ++i) {
@@ -169,63 +170,63 @@ Array.prototype.duplicates = function() {
     return duplicates;
 };
 
-Array.prototype.orElse = function(other) {
+Array.prototype.orElse = function (other) {
     return this.length !== 0 ? this : other;
 };
 
-Array.prototype.head = function() {
+Array.prototype.head = function () {
     if (this.length === 0) {
         throw new Error("calling head on an empty Array");
     }
     return this[0];
 };
 
-Array.prototype.tail = function() {
+Array.prototype.tail = function () {
     if (this.length === 0) {
         throw new Error("calling tail on an empty Array");
     }
     return this.slice(1);
 };
-Array.prototype.init = function() {
+Array.prototype.init = function () {
     if (this.length === 0) {
         throw new Error("calling init on an empty Array");
     }
     return this.slice(0, this.length - 1);
 };
-Array.prototype.last = function() {
+Array.prototype.last = function () {
     if (this.length === 0) {
         throw new Error("calling last on an empty Array");
     }
     return this[this.length - 1];
 };
 
-Array.prototype.fst = function() {
+Array.prototype.fst = function () {
     if (this.length < 1) {
         throw new Error("calling fst on an empty Array");
     }
     return this[0];
 };
-Array.prototype.snd = function() {
+Array.prototype.snd = function () {
     if (this.length < 2) {
         throw new Error("calling snd on an Array with less than 2 elements");
     }
     return this[1];
 };
-Array.prototype.trd = function() {
+Array.prototype.trd = function () {
     if (this.length < 3) {
         throw new Error("calling trd on an Array with less than 3 elements");
     }
     return this[2];
 };
 
-Array.prototype.take = function(length) {
+Array.prototype.take = function (length) {
     if (this.length < length) {
         throw new Error("not enough elements to take");
     }
     return this.slice(0, length);
 };
 
-Array.prototype.drop = function(length) {
+Array.prototype.drop = function (length) {
     if (this.length < length) {
         throw new Error("not enough elements to drop");
     }
@@ -239,7 +240,7 @@ Array.prototype.drop = function(length) {
  * maps a tuple of sequences into a sequence of tuples
  * Array.zipl([1], [2,3], [4,5,6]) => [1,2,4],[undefined,3,5],[undefined,undefined,6]
  **/
-Array.zipl = function(/*array1, array2, ...*/) {
+Array.zipl = function (/*array1, array2, ...*/) {
     var lengths = new Array(arguments.length);
     for (var c = 0; c !== arguments.length; ++c) {
         lengths[c] = arguments[c].length;
@@ -261,7 +262,7 @@ Array.zipl = function(/*array1, array2, ...*/) {
  * maps a tuple of sequences into a sequence of tuples
  * Array.zips([1],[2,3],[4,5,6]) => [1,2,4]
  **/
-Array.zips = function(/*array1, array2, ...*/) {
+Array.zips = function (/*array1, array2, ...*/) {
     var lengths = new Array(arguments.length);
     for (var c = 0; c !== arguments.length; ++c) {
         lengths[c] = arguments[c].length;
@@ -278,7 +279,7 @@ Array.zips = function(/*array1, array2, ...*/) {
     return result;
 };
 
-Array.iota = function(size, start, step) {
+Array.iota = function (size, start, step) {
     step = step === undefined ? 1 : step;
     start = start === undefined ? 0 : start;
     var r = new Array(size);
@@ -288,11 +289,11 @@ Array.iota = function(size, start, step) {
     return r;
 };
 
-Array.prototype.iota = function(start, step) {
+Array.prototype.iota = function (start, step) {
     return Array.iota(this.length, start, step);
 };
 
-Array.prototype.flatten = function() {
+Array.prototype.flatten = function () {
     var result = [];
     for (var c = 0; c !== this.length; ++c) {
         var inner = this[c];
@@ -306,12 +307,12 @@ Array.prototype.flatten = function() {
     return result;
 };
 
-Array.prototype.group_by = function(fn, self){
+Array.prototype.group_by = function (fn, self) {
     self = self || this;
     var res = {};
-    for(var i=0;i!==this.length;++i){
-        var v= this[i], k = fn.call(self, v);
-        if(!res[k]){
+    for (var i = 0; i !== this.length; ++i) {
+        var v = this[i], k = fn.call(self, v);
+        if (!res[k]) {
             res[k] = [];
         }
         res[k].push(v);
@@ -319,21 +320,21 @@ Array.prototype.group_by = function(fn, self){
     return res;
 };
 
-Array.prototype.index_by = function(fn, self){
+Array.prototype.index_by = function (fn, self) {
     self = self || this;
     var res = {};
-    for(var i=0;i!==this.length;++i){
-        var v= this[i];
-        res[fn.call(self, v)]= v;
+    for (var i = 0; i !== this.length; ++i) {
+        var v = this[i];
+        res[fn.call(self, v)] = v;
     }
     return res;
 };
 
 Array.prototype.flatMap = function (fn, self) {
     self = self || this;
-    return this.reduce(function(acc, v, i){
+    return this.reduce(function (acc, v, i) {
         return acc.concat(fn.call(self, v, i));
-    }, []);    
+    }, []);
 };
 
 //http://stackoverflow.com/questions/7837456/comparing-two-arrays-in-javascript
@@ -342,7 +343,7 @@ Array.prototype.equals = function (array) {
         return false;
     if (this.length !== array.length)
         return false;
-    for (var i = 0, l=this.length; i < l; i++) {
+    for (var i = 0, l = this.length; i < l; i++) {
         if (this[i] instanceof Array && array[i] instanceof Array) {
             // recurse into the nested arrays
             if (!this[i].equals(array[i]))

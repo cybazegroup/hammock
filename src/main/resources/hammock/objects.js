@@ -4,7 +4,7 @@ objects.ordering_policy = {};
 objects.ordering_policy.Natural = {ordering_policy: 'natural'};
 objects.ordering_policy.Lexicographical = {ordering_policy: 'lexicographical'};
 
-objects.keys = function(obj, ordering_policy) {
+objects.keys = function (obj, ordering_policy) {
     var keys = [];
     for (var key in obj) {
         keys.push(key);
@@ -15,7 +15,7 @@ objects.keys = function(obj, ordering_policy) {
     return keys;
 };
 
-objects.values = function(obj, ordering_policy) {
+objects.values = function (obj, ordering_policy) {
     var keys = objects.keys(obj, ordering_policy);
     var values = [];
     for (var i = 0; i !== keys.length; ++i) {
@@ -24,7 +24,7 @@ objects.values = function(obj, ordering_policy) {
     return values;
 };
 
-objects.pairs = function(obj, ordering_policy) {
+objects.pairs = function (obj, ordering_policy) {
     var keys = objects.keys(obj, ordering_policy);
     var out = [];
     for (var i = 0; i !== keys.length; ++i) {
@@ -33,8 +33,8 @@ objects.pairs = function(obj, ordering_policy) {
     return out;
 };
 
-objects.shallow_copy = function(o) {
-    if(o === null ){
+objects.shallow_copy = function (o) {
+    if (o === null) {
         /* typeof null == 'object' in internet explorer */
         return o;
     }
@@ -49,17 +49,17 @@ objects.shallow_copy = function(o) {
 };
 
 
-objects.deep_copy = function(obj) {
+objects.deep_copy = function (obj) {
     var seen = [];
     var mapping = [];
-    var f = function(o) {
-        if( o === null ){
+    var f = function (o) {
+        if (o === null) {
             /* typeof null == 'object' in internet explorer */
             return o;
         }
         var i = seen.indexOf(o);
         if (i !== -1) {
-           return mapping[i];
+            return mapping[i];
         }
         switch (types.type(o)) {
             case 'object':
@@ -86,7 +86,7 @@ objects.deep_copy = function(obj) {
  *  >> src = { field4: 0}
  *  >> removed = { field1: 0, field2: 0, field3: 0 }
  **/
-objects.remove = function() {
+objects.remove = function () {
     if (arguments.length < 2) {
         throw "called objects.remove with insufficent arguments";
     }
@@ -100,7 +100,7 @@ objects.remove = function() {
     return removed;
 };
 
-objects.defaults = function(target, defaults) {
+objects.defaults = function (target, defaults) {
     for (var d in defaults) {
         if (target[d] === undefined) {
             target[d] = defaults[d];
@@ -109,7 +109,7 @@ objects.defaults = function(target, defaults) {
     return target;
 };
 
-objects.override = function(target, src, fn/*(value)*/) {
+objects.override = function (target, src, fn/*(value)*/) {
     fn = fn ? fn : identity;
     for (var d in src) {
         target[d] = fn(src[d]);
@@ -117,7 +117,7 @@ objects.override = function(target, src, fn/*(value)*/) {
     return target;
 };
 
-objects.substitute = function(target, src) {
+objects.substitute = function (target, src) {
     for (var d in src) {
         if (undefined !== target[d]) {
             target[d] = src[d];
@@ -126,7 +126,7 @@ objects.substitute = function(target, src) {
     return target;
 };
 
-objects.merge = function(destination/*,srcs..*/) {
+objects.merge = function (destination/*,srcs..*/) {
     for (var i = 1; i !== arguments.length; ++i) {
         var source = arguments[i];
         for (var key in source) {
@@ -149,47 +149,48 @@ objects.merge = function(destination/*,srcs..*/) {
 /**
  * pluck.curry('a')({a: 'value'}) => 'value'
  */
-objects.pluck = function(what, from) {
+objects.pluck = function (what, from) {
     return from[what];
 };
 
-objects.deep_pluck = function(what, from) {
+objects.deep_pluck = function (what, from) {
     return what.split(".").fold(objects.pluck.flip().binary(), from);
 };
 
-objects.global = function(){
-    return (function(){
-        return this || (1,eval)('this')
+objects.global = function () {
+    return (function () {
+        return this || (1, eval)('this')
     })();
 };
 
-objects.namespace = function(name){
+objects.namespace = function (name) {
     var current = objects.global();
-    name.split(".").forEach(function(part){
+    name.split(".").forEach(function (part) {
         current = current[part] = current[part] || {};
     });
     return current;
 };
 
-objects.extend = function(base_ctor, ctor) {
-    function F(){}
+objects.extend = function (base_ctor, ctor) {
+    function F() {
+    }
     F.prototype = base_ctor.prototype
     ctor.prototype = new F();
     ctor.prototype.constructor = ctor;
     return ctor;
 }
 
-objects.define = function(name, definitions){
+objects.define = function (name, definitions) {
     dbc.precondition.not_empty(name, "name must be nonempty");
     dbc.precondition.assert(definitions.constructor !== Object, "constructor must be configured");
     var created = objects.extend(definitions.extend || Object, definitions.constructor);
-    for(var d in definitions){
-        if(!['constructor','statics','extend'].contains(d)){
+    for (var d in definitions) {
+        if (!['constructor', 'statics', 'extend'].contains(d)) {
             var value = definitions[d];
             created.prototype[d] = value;
         }
     }
-    for(var s in definitions.statics){
+    for (var s in definitions.statics) {
         definitions.constructor[s] = definitions.statics[s];
     }
     var namespaceAndName = /(?:(.*)\.)?(.*)/.exec(name);
@@ -199,10 +200,10 @@ objects.define = function(name, definitions){
     return created;
 }
 
-objects.invoker = function(m, args, scope){
-    return function(o){
+objects.invoker = function (m, args, scope) {
+    return function (o) {
         var others = Array.prototype.slice.call(arguments, 1);
-        var all = Array.prototype.concat.call(args||[], others);
+        var all = Array.prototype.concat.call(args || [], others);
         return o[m].apply(scope || o, all);
     };
 };

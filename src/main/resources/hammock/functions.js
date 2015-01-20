@@ -1,20 +1,20 @@
-Function.prototype.curry = function() {
+Function.prototype.curry = function () {
     var fn = this;
     var args = Array.prototype.slice.call(arguments);
-    return function() {
+    return function () {
         return fn.apply(this, args.concat(Array.prototype.slice.call(arguments)));
     };
 };
 
-Function.prototype.rcurry = function() {
+Function.prototype.rcurry = function () {
     var fn = this;
     var args = Array.prototype.slice.call(arguments);
-    return function() {
+    return function () {
         return fn.apply(this, Array.prototype.slice.call(arguments).concat(args));
     };
 };
 
-Function.prototype.pcurry = function(/*[0,'a'],[1,'b']*/) {
+Function.prototype.pcurry = function (/*[0,'a'],[1,'b']*/) {
     var fn = this;
     var args = Array.prototype.slice.call(arguments);
     function searchBound(i, s) {
@@ -25,7 +25,7 @@ Function.prototype.pcurry = function(/*[0,'a'],[1,'b']*/) {
         }
         return [];
     }
-    return function() {
+    return function () {
         var c = [];
         var used_args = 0;
         for (var i = 0; i !== args.length + arguments.length; ++i) {
@@ -41,93 +41,93 @@ Function.prototype.partialr = Function.prototype.rcurry;
 Function.prototype.partialp = Function.prototype.pcurry;
 
 
-Function.prototype.bind = function(scope) {
+Function.prototype.bind = function (scope) {
     var fn = this;
-    return function() {
+    return function () {
         return fn.apply(scope, arguments);
     };
 };
 
-Function.prototype.flip = function() {
+Function.prototype.flip = function () {
     var fn = this;
-    return function() {
+    return function () {
         var args = Array.prototype.slice.call(arguments);
         return fn.apply(this, args.reverse());
     };
 };
 
-Function.prototype.nary = function(arity, scope/*[optional]*/) {
+Function.prototype.nary = function (arity, scope/*[optional]*/) {
     var fn = this;
-    return function() {
+    return function () {
         return fn.apply(scope || this, Array.prototype.slice.call(arguments, 0, arity));
     };
 };
 
-Function.prototype.nullary = function(scope/*[optional]*/) {
+Function.prototype.nullary = function (scope/*[optional]*/) {
     return Function.prototype.nary.call(scope || this, 0);
 };
 
-Function.prototype.unary = function(scope/*[optional]*/) {
+Function.prototype.unary = function (scope/*[optional]*/) {
     return Function.prototype.nary.call(scope || this, 1);
 };
 
-Function.prototype.binary = function(scope/*[optional]*/) {
+Function.prototype.binary = function (scope/*[optional]*/) {
     return Function.prototype.nary.call(scope || this, 2);
 };
 
-Function.prototype.ternary = function(scope/*[optional]*/) {
+Function.prototype.ternary = function (scope/*[optional]*/) {
     return Function.prototype.nary.call(scope || this, 3);
 };
 
-Function.prototype.intercept = function(interceptor/*(inner, arguments)*/, scope /*[optional]*/) {
+Function.prototype.intercept = function (interceptor/*(inner, arguments)*/, scope /*[optional]*/) {
     var inner = this;
-    return function() {
+    return function () {
         return interceptor.call(scope || this, inner, Array.prototype.slice.call(arguments));
     };
 };
 
-Function.prototype.and_then = function(after/*(arguments)*/, scope /*[optional]*/) {
+Function.prototype.and_then = function (after/*(arguments)*/, scope /*[optional]*/) {
     var self = this;
-    return function() {
+    return function () {
         return after.call(scope || this, self.apply(scope || this, arguments));
     };
 };
 
-Function.prototype.preceded_by = function(before/*(arguments)*/, scope/*[optional]*/) {
+Function.prototype.preceded_by = function (before/*(arguments)*/, scope/*[optional]*/) {
     var self = this;
-    return function() {
+    return function () {
         return self.call(scope || this, before.apply(scope || this, arguments));
     };
 };
 
-Function.prototype.when = function(pred, scope){
+Function.prototype.when = function (pred, scope) {
     var self = this;
-    return function(){
-        if(!pred.apply(scope || this, arguments)){
+    return function () {
+        if (!pred.apply(scope || this, arguments)) {
             return;
         }
         return self.apply(scope || this, arguments);
     };
 };
 
-Function.prototype.unless = function(pred, scope){
+Function.prototype.unless = function (pred, scope) {
     var self = this;
-    return function(){
-        if(pred.apply(scope || this, arguments)){
+    return function () {
+        if (pred.apply(scope || this, arguments)) {
             return;
         }
         return self.apply(scope || this, arguments);
     };
 };
 
-Function.prototype.meta = function(meta) {
+Function.prototype.meta = function (meta) {
     for (var d in meta) {
         this[d] = meta[d];
     }
     return this;
 };
 
-Function.prototype.meta_matches = function(meta) {
+Function.prototype.meta_matches = function (meta) {
     for (var k in meta) {
         if (this[k] !== meta[k]) {
             return false;
@@ -137,46 +137,46 @@ Function.prototype.meta_matches = function(meta) {
 };
 
 
-Function.prototype.with_param = function(at, scope/*[optional]*/){
+Function.prototype.with_param = function (at, scope/*[optional]*/) {
     var self = this;
-    return function(){
+    return function () {
         return self.call(scope || this, arguments[at]);
     };
 };
 
-Function.prototype.with_first_param = function(scope/*[optional]*/){
+Function.prototype.with_first_param = function (scope/*[optional]*/) {
     return this.with_param(0, scope);
 };
 
-Function.prototype.with_second_param = function(scope/*[optional]*/){
+Function.prototype.with_second_param = function (scope/*[optional]*/) {
     return this.with_param(1, scope);
 };
 
-Function.prototype.with_third_param = function(scope/*[optional]*/){
+Function.prototype.with_third_param = function (scope/*[optional]*/) {
     return this.with_param(2, scope);
 };
 
-Function.prototype.slicing_params = function(from, to, scope/*[optional]*/){
+Function.prototype.slicing_params = function (from, to, scope/*[optional]*/) {
     var self = this;
-    return function(){
+    return function () {
         return self.apply(scope || this, Array.prototype.slice.call(arguments, from, to));
     };
 };
 
-function first_param(){
+function first_param() {
     return arguments[0];
 }
 
-function second_param(){
+function second_param() {
     return arguments[1];
 }
 
-function third_param(){
+function third_param() {
     return arguments[2];
 }
 
-function param(n){
-    return function(){
+function param(n) {
+    return function () {
         return arguments[n];
     };
 }
@@ -196,19 +196,19 @@ function always() {
     return true;
 }
 
-function sum(acc, v){
+function sum(acc, v) {
     return acc + v;
 }
 
-function count(acc){
-    return acc+1;
+function count(acc) {
+    return acc + 1;
 }
 
-function is_even(e){
+function is_even(e) {
     return e % 2 === 0;
 }
 
-function is_odd(e){
+function is_odd(e) {
     return e % 2 !== 0;
 }
 
@@ -220,26 +220,26 @@ function is_false(e) {
     return e === false;
 }
 
-function is(lhs, rhs){
+function is(lhs, rhs) {
     return lhs === rhs;
 }
 
-function eq(lhs, rhs){
+function eq(lhs, rhs) {
     return lhs == rhs;
 }
 
-function lt(lhs, rhs){
+function lt(lhs, rhs) {
     return lhs < rhs;
 }
 
-function gt(lhs, rhs){
+function gt(lhs, rhs) {
     return lhs > rhs;
 }
 
-function lte(lhs, rhs){
+function lte(lhs, rhs) {
     return lhs <= rhs;
 }
 
-function gte(lhs, rhs){
+function gte(lhs, rhs) {
     return lhs >= rhs;
 }
