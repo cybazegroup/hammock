@@ -1,75 +1,75 @@
 objects.namespace('hammock');
 
 
-hammock.LinkedHashSet = function(hash, eq){
+hammock.LinkedHashSet = function (hash, eq) {
     this._hash = hash;
     this._eq = eq;
     this._keys = [];
     this._buckets = {};
 }
 
-hammock.LinkedHashSet.fromList = function(hash, eq, list){
+hammock.LinkedHashSet.fromList = function (hash, eq, list) {
     var set = new hammock.LinkedHashSet(hash, eq);
-    for(var i=0; i!==list.length; ++i){
+    for (var i = 0; i !== list.length; ++i) {
         set.add(list[i]);
     }
-    return set;    
+    return set;
 }
 
-hammock.LinkedHashSet.copyOf = function(other){
+hammock.LinkedHashSet.copyOf = function (other) {
     var set = new hammock.LinkedHashSet(other._hash, other._eq);
-    for(var i=0; i!==other._keys.length; ++i){
+    for (var i = 0; i !== other._keys.length; ++i) {
         set.add(other._keys[i]);
     }
     return set;
 }
 
-hammock.LinkedHashSet.merge = function(){
+hammock.LinkedHashSet.merge = function () {
     dbc.precondition.assert(arguments.length > 0, "merging 0 sets");
     var set = hammock.LinkedHashSet.copy(arguments[0]);
-    for(var a=1; a!== arguments.length; ++a){
-        for(var i=0; i!==arguments[a]._keys.length; ++i){
+    for (var a = 1; a !== arguments.length; ++a) {
+        for (var i = 0; i !== arguments[a]._keys.length; ++i) {
             set.add(arguments[a]._keys[i]);
         }
     }
-    return set; 
+    return set;
 }
 
-hammock.LinkedHashSet.prototype._keyIndex = function(k, hash){
-    if(!this._buckets.hasOwnProperty(hash)){            
+hammock.LinkedHashSet.prototype._keyIndex = function (k, hash) {
+    if (!this._buckets.hasOwnProperty(hash)) {
         return -1;
     }
     var candidates = this._buckets[hash];
-    for(var i=0; i!==candidates.length; ++i){
+    for (var i = 0; i !== candidates.length; ++i) {
         var current = candidates[i];
-        if(this._eq(this._keys[current], k)){
+        if (this._eq(this._keys[current], k)) {
             return current;
         }
     }
     return -1;
 }
 
-hammock.LinkedHashSet.prototype.position = function(k){
+hammock.LinkedHashSet.prototype.position = function (k) {
     return this._keyIndex(k, this._hash(k));
 }
 
-hammock.LinkedHashSet.prototype.contains = function(k){
+hammock.LinkedHashSet.prototype.contains = function (k) {
     return -1 !== this._keyIndex(k, this._hash(k))
 }
 
-hammock.LinkedHashSet.prototype.keys = function(){
+hammock.LinkedHashSet.prototype.keys = function () {
     return this._keys;
 }
 
-hammock.LinkedHashSet.prototype.add = function(k){
+hammock.LinkedHashSet.prototype.add = function (k) {
     var hash = this._hash(k);
     var index = this._keyIndex(k, hash)
-    if(-1 !== index){
+    if (-1 !== index) {
         this._keys[index] = k;
         return this;
     }
     this._keys.push(k);
-    if(!this._buckets.hasOwnProperty(hash)){
+    if (!this._buckets.hasOwnProperty(hash)) {
         this._buckets[hash] = []
     }
     this._buckets[hash].push(this._keys.length - 1);

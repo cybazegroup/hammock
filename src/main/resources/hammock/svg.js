@@ -1,12 +1,12 @@
 objects.namespace('svg');
 
 svg.export_type = {
-    svg: { mime_type: 'image/svg+xml'}, 
-    png: { mime_type: 'image/png' }, 
-    jpg: { mime_type: 'image/jpg'}
+    svg: {mime_type: 'image/svg+xml'},
+    png: {mime_type: 'image/png'},
+    jpg: {mime_type: 'image/jpg'}
 };
 
-svg.download = function(filename, export_as, svgTag, styleSheetsFilter, styleSheetRulesFilter) {
+svg.download = function (filename, export_as, svgTag, styleSheetsFilter, styleSheetRulesFilter) {
     var styles = browser.document_styles(window.document, styleSheetsFilter, styleSheetRulesFilter);
     var stylesTag = document.createElement('style');
     stylesTag.innerHTML = styles;
@@ -18,21 +18,21 @@ svg.download = function(filename, export_as, svgTag, styleSheetsFilter, styleShe
 
     var serialized = new XMLSerializer().serializeToString(clonedSvg);
     var url = window.URL.createObjectURL(new Blob([serialized], {type: "image/svg+xml"}));
-    if(export_as.mime_type === "image/svg+xml"){
+    if (export_as.mime_type === "image/svg+xml") {
         browser.download_url(url, filename);
         return;
     }
     var image = new Image;
     image.src = url;
-    image.onload = function() {
+    image.onload = function () {
         var canvas = document.createElement('canvas');
         canvas.setAttribute('width', image.width);
         canvas.setAttribute('height', image.height);
         var context = canvas.getContext("2d");
-        context.rect(0,0,image.width,image.height);
-        context.fillStyle="white";
+        context.rect(0, 0, image.width, image.height);
+        context.fillStyle = "white";
         context.fill();
         context.drawImage(image, 0, 0);
         browser.download_url(canvas.toDataURL(export_as.mime_type), filename);
-    };        
+    };
 };
