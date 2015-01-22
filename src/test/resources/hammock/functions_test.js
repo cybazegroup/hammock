@@ -65,6 +65,14 @@ describe('functions.nullary', function () {
         }.nullary();
         expect(fn(1, 2, 3, 4)).toEqual([]);
     });
+
+    it('should take the correct scope', function () {
+        var scope = {secret: 'z'};
+        var fn = function () {
+            return this.secret;
+        }.nullary(scope);
+        expect(fn()).toEqual('z');
+    });
 });
 
 describe('functions.unary', function () {
@@ -73,6 +81,14 @@ describe('functions.unary', function () {
             return Array.prototype.slice.call(arguments);
         }.unary();
         expect(fn(1, 2, 3, 4)).toEqual([1]);
+    });
+
+    it('should take the correct scope', function () {
+        var scope = {secret: 'z'};
+        var fn = function () {
+            return this.secret;
+        }.unary(scope);
+        expect(fn()).toEqual('z');
     });
 });
 
@@ -83,6 +99,14 @@ describe('functions.binary', function () {
         }.binary();
         expect(fn(1, 2, 3, 4)).toEqual([1, 2]);
     });
+
+    it('should take the correct scope', function () {
+        var scope = {secret: 'z'};
+        var fn = function () {
+            return this.secret;
+        }.binary(scope);
+        expect(fn()).toEqual('z');
+    });
 });
 
 describe('functions.ternary', function () {
@@ -91,6 +115,14 @@ describe('functions.ternary', function () {
             return Array.prototype.slice.call(arguments);
         }.ternary();
         expect(fn(1, 2, 3, 4)).toEqual([1, 2, 3]);
+    });
+
+    it('should take the correct scope', function () {
+        var scope = {secret: 'z'};
+        var fn = function () {
+            return this.secret;
+        }.ternary(scope);
+        expect(fn()).toEqual('z');
     });
 });
 
