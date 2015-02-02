@@ -1,4 +1,4 @@
-var browser = {details: {}};
+var browser = {details: {}, clipboard: {}};
 
 browser.details.isInternetExplorer = function () {
     return !/opera/i.test(navigator.userAgent) && /msie/i.test(navigator.userAgent);
@@ -67,4 +67,36 @@ browser.document_styles = function (doc, styleSheetFilter, ruleFilter) {
     }).filter(ruleFilter || always).map(function (rule) {
         return rule.cssText;
     }).join('\n');
+};
+
+browser.clipboard.copy = function (value) {
+    var ta = document.createElement('textarea');
+    ta.id = 'cliparea';
+    ta.style.position = 'absolute';
+    ta.style.left = '-1000px';
+    ta.style.top = '-1000px';
+    ta.value = value;
+    document.body.appendChild(ta);
+    document.designMode = 'off';
+    ta.focus();
+    ta.select();
+    setTimeout(function () {
+        document.body.removeChild(ta);
+    }, 100);
+};
+
+browser.clipboard.paste = function (callback /*pastedValue*/) {
+    var ta = document.createElement('textarea');
+    ta.id = 'cliparea';
+    ta.style.position = 'absolute';
+    ta.style.left = '-1000px';
+    ta.style.top = '-1000px';
+    document.body.appendChild(ta);
+    document.designMode = 'off';
+    setTimeout(function () {
+        callback.call(this, ta.value);
+        document.body.removeChild(ta);
+    }, 100);
+    ta.focus();
+    ta.select();
 };
