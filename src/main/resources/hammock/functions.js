@@ -220,6 +220,14 @@ function is_false(e) {
     return e === false;
 }
 
+function is_null(e) {
+    return e === null;
+}
+
+function is_undefined(e) {
+    return e === undefined;
+}
+
 function is(lhs, rhs) {
     return lhs === rhs;
 }
