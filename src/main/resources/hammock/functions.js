@@ -163,6 +163,12 @@ Function.prototype.slicing_params = function (from, to, scope/*[optional]*/) {
     };
 };
 
+function not(pred, scope/*[optional]*/) {
+    return function () {
+        return !pred.apply(scope || this, arguments);
+    };
+}
+
 function first_param() {
     return arguments[0];
 }

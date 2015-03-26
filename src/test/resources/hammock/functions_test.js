@@ -333,6 +333,27 @@ describe('functions.slicing_params', function () {
     });
 });
 
+describe('functions.not', function () {
+    it('should invert true to false', function () {
+        var yes = function () {
+            return true;
+        };
+        expect(not(yes)()).toEqual(false);
+    });
+    it('should invert false to true', function () {
+        var no = function () {
+            return false;
+        };
+        expect(not(no)()).toEqual(true);
+    });
+    it('should apply arguments', function () {
+        var eq = function (a, b) {
+            return a === b;
+        };
+        expect(not(eq)(1, 2)).toEqual(true);
+    });
+});
+
 describe('functions.first_param', function () {
     it('should return first param', function () {
         var wrapper = function (f) {
