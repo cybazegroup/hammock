@@ -40,12 +40,25 @@ Function.prototype.partial = Function.prototype.curry;
 Function.prototype.partialr = Function.prototype.rcurry;
 Function.prototype.partialp = Function.prototype.pcurry;
 
-
-Function.prototype.bind = function (scope) {
+/**
+ * Polyfill for Function.prototype.bind based on https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind#Polyfill
+ */
+Function.prototype.bind = Function.prototype.bind || function (scope) {
+    if (typeof this !== 'function') {
+        // closest thing possible to the ECMAScript 5 internal IsCallable function
+        throw new TypeError('Function.prototype.bind called on a non-function');
+    }
+    var args = Array.prototype.slice.call(arguments, 1);
     var fn = this;
-    return function () {
-        return fn.apply(scope, arguments);
-    };
+    function noop() {
+    }
+    function bound() {
+        return fn.apply(this instanceof noop ? this : scope,
+                args.concat(Array.prototype.slice.call(arguments)));
+    }
+    noop.prototype = this.prototype;
+    bound.prototype = new noop();
+    return bound;
 };
 
 Function.prototype.flip = function () {
