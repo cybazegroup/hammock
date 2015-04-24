@@ -1,7 +1,11 @@
 var browser = {details: {}, clipboard: {}};
 
-browser.details.isInternetExplorer = function () {
-    return !/opera/i.test(navigator.userAgent) && /msie/i.test(navigator.userAgent);
+browser.details.isInternetExplorer = function (userAgent) {
+    var agent = userAgent || navigator.userAgent;
+    return !/opera/i.test(agent) && (
+            /msie/i.test(agent) ||
+            /trident/i.test(agent) // IE11
+            );
 };
 
 browser.redirect = function (loc) {
