@@ -14,6 +14,16 @@ describe('browser.details.isInternetExplorer', function () {
         var got = browser.details.isInternetExplorer('Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko');
         expect(got).toEqual(true);
     });
+    
+    it('should accept Edge',function (){
+        var got = browser.details.isInternetExplorer('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.12345');
+        expect(got).toEqual(true);
+    })
+
+    it('should accept Edge Mobile',function (){
+        var got = browser.details.isInternetExplorer('Mozilla/5.0 (Windows Phone 10.0; Android 4.2.1; DEVICE INFO) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Mobile Safari/537.36 Edge/12.12345');
+        expect(got).toEqual(true);
+    })
 
     it('should reject Opera', function () {
         var got = browser.details.isInternetExplorer('Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0) Opera 12.14');

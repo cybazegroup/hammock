@@ -4,7 +4,8 @@ browser.details.isInternetExplorer = function (userAgent) {
     var agent = userAgent || navigator.userAgent;
     return !/opera/i.test(agent) && (
             /msie/i.test(agent) ||
-            /trident/i.test(agent) // IE11
+            /trident/i.test(agent) || // IE11
+            /edge/i.test(agent) // Microsoft Edge aka Spartan
             );
 };
 
