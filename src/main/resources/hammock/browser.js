@@ -46,6 +46,12 @@ browser.download_url = function (url, filename) {
 }
 
 browser.download_data = function (data, filename, /*optional*/ docType, /*optional*/ charset) {
+    if (navigator.msSaveOrOpenBlob) {
+        // IE >= 10
+        var blob = new Blob([data])
+        navigator.msSaveOrOpenBlob(blob, filename);
+        return;
+    }
     var link = document.createElement('a');
     var model = {
         docType: docType || 'text/plain',
