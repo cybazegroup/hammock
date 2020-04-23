@@ -28,3 +28,5 @@ types.type = function (obj) {
     var repr = Object.prototype.toString.call(obj);
     return repr.match(/\[object (.+)\]/)[1].toLowerCase();
 }
+
+window.types = types;

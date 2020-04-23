@@ -111,3 +111,5 @@ browser.clipboard.paste = function (callback /*pastedValue*/) {
     ta.focus();
     ta.select();
 };
+
+window.browser = browser;

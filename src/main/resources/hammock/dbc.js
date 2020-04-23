@@ -123,3 +123,5 @@ dbc.assertion.non_negative = function (type, value, error_fmt/*, args...*/) {
         dbc.postcondition[k] = dbc.assertion[k].curry(dbc.PostconditionFailed)
     }
 })();
+
+window.dbc = dbc;

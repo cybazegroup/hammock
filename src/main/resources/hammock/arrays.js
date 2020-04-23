@@ -356,3 +356,5 @@ Array.prototype.equals = function (array) {
     }
     return true;
 };
+
+window.hammock = hammock;

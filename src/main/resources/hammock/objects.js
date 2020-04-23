@@ -207,3 +207,5 @@ objects.invoker = function (m, args, scope) {
         return o[m].apply(scope || o, all);
     };
 };
+
+window.objects = objects;

@@ -270,3 +270,28 @@ function lte(lhs, rhs) {
 function gte(lhs, rhs) {
     return lhs >= rhs;
 }
+
+Object.assign(window, {
+    not: not,
+    first_param: first_param,
+    third_param: third_param,
+    param: param,
+    noop: noop,
+    identity: identity,
+    never: never,
+    always: always,
+    sum: sum,
+    count: count,
+    is_even: is_even,
+    is_odd: is_odd,
+    is_true: is_true,
+    is_false: is_false,
+    is_null: is_null,
+    is_undefined: is_undefined,
+    is: is,
+    eq: eq,
+    lt: lt,
+    gt: gt,
+    lte: lte,
+    gte: gte,
+})

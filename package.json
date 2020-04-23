@@ -1,0 +1,7 @@
+{
+  "name": "@cybaze/hammock",
+  "version": "2.2.0",
+  "main": "index.js",
+  "repository": "cybazegroup/hammock",
+  "license": "CC-BY-SA-4.0"
+}
