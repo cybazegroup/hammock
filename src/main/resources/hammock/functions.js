@@ -274,6 +274,7 @@ function gte(lhs, rhs) {
 Object.assign(window, {
     not: not,
     first_param: first_param,
+    second_param: second_param,
     third_param: third_param,
     param: param,
     noop: noop,
